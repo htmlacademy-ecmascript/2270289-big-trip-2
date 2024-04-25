@@ -12,5 +12,8 @@
   },
   "engines": {
     "node": "20"
+  },
+  "dependencies": {
+    "webpack": "^5.91.0"
   }
 }
