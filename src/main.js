@@ -1,7 +1,8 @@
-import NewTaskButtonView from './view/new-task-button-view.js';
-import {render} from './render.js';
+import {NewFilterView} from './view/new-filter-view.js';
+import {render, renderAny} from './render.js';
 
-const siteMainElement = document.querySelector('.main');
-const siteHeaderElement = siteMainElement.querySelector('.main__control');
+const siteBody = document.querySelector('.page-body');
+const siteControlFilters = siteBody.querySelector('.trip-controls__filters');
 
-render(new NewTaskButtonView(), siteHeaderElement);
+render(new NewFilterView(), siteControlFilters);
+renderAny(new NewFilterView(), siteControlFilters);
