@@ -24,6 +24,14 @@ function createFilterTemplate() {
   return filtersMap;
 }
 
+const createAnyFragment = (elements) => {
+  const fragment = document.createDocumentFragment;
+  elements.forEach((element) => {
+    fragment.appendChild(element);
+  });
+  return fragment;
+};
+
 function renderAny(component, container) {
   const elementCollection = createFragment();
   console.log('я здесь');
@@ -41,6 +49,13 @@ class NewFilterView {
   getElement() {
     if (!this.element) {
       this.element = createElement(this.getTemplate());
+    }
+    return this.element;
+  }
+
+  getFragment() {
+    if (!this.element) {
+      this.element = createFragment(this.getTemplate());
     }
     return this.element;
   }
