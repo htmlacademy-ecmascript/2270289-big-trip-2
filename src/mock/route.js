@@ -1,28 +1,20 @@
-import {getRandomArrayElement} from '../utils.js';
+import {getRandomArrayElement, getRandomInteger} from '../utils.js';
+const LIMIT_COUNT_PROPOSAL = 5;
 
 const cities = ['Amsterdam','Chamonix','Geneva'];
-
-const typePointMap = {
-  1: 'Taxi',
-  2: 'Bus',
-  3: 'Train',
-  4: 'Ship',
-  5: 'Drive',
-  6: 'Flight',
-  7: 'Check-in',
-  8: 'Sightseeing',
-  9: 'Restaurant',
-};
-
-const offersNameMap = {
-  1: 'meal',
-  2: 'luggage',
-  3: 'seats',
-  4: 'business lounge',
-  5: 'business class',
-  6: 'radio',
-  7: 'music',
-};
+const typePointsMap = ['Taxi','Bus','Train','Ship','Drive','Flight','Check-in','Sightseeing','Restaurant',];
+const offersNameMap = ['meal','luggage','seats','business lounge','business class','radio','music',];
+const descriptionsMap = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  'Cras aliquet varius magna, non porta ligula feugiat eget.',
+  'Fusce tristique felis at fermentum pharetra.',
+  'Aliquam id orci ut lectus varius viverra.',
+  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
+  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
+  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
+  'Sed sed nisi sed augue convallis suscipit in sed felis.',
+  'Aliquam erat volutpat.',
+  'Nunc fermentum tortor ac porta dapibus.',
+  'In rutrum ac purus sit amet tempus.'];
 
 const offer = {
   type: '',
@@ -98,58 +90,60 @@ const offersMap = [{
 }
 ];
 
+const getRandomDescriptions = () => {
+  const countProposal = getRandomInteger(LIMIT_COUNT_PROPOSAL);
+  const arrayProposal = [];
+  for (let i = 0; i < countProposal; i++) {
+    const numberProposal = getRandomInteger(descriptionsMap.length);
+    arrayProposal.pash(descriptionsMap[numberProposal]);
+  }
+  return arrayProposal;
+};
+
+const getRandomOffers = () => {
+
+}
+
+const pointDestinationMap = [{
+  description: getRandomDescriptions(),
+  nameDestination : 'Amsterdam' ,
+  photos: ['../img/photos/1.jpg','../img/photos/2.jpg'],
+},
+{
+  description: getRandomDescriptions(),
+  nameDestination : 'Chamonix',
+  photos: ['../img/photos/3.jpg','../img/photos/4.jpg'],
+},
+{
+  description: getRandomDescriptions(),
+  nameDestination : 'Geneva',
+  photos: ['../img/photos/5.jpg'],
+}
+];
+
+
 const mockEvents = [
   {
-    description: `${typePointMap[1]} ${cities[0]}`,
-    offers: [{
-      type:'choose',
-      nameOffer: offersNameMap[1],
-      price: '100$',
-    },
-    {
-      type:'choose',
-      nameOffer: offersNameMap[2],
-      price: '100$',
-    },
-    {
-      type:'add',
-      nameOffer: offersNameMap[3],
-      price: '100$',
-    }
-    ],
+    point: pointDestinationMap[0],
+    offers: getRandomOffers(),
     time: '18 mar',
-    price: '1200$',
+    price: '1000$',
     isArchive: false,
     isFavorite: false,
   },
   {
-    description: `${typePointMap[1]} ${cities[1]}`,
-    offers: [{
-      type:'choose',
-      nameOffer: offersNameMap[2],
-      price: '100$',
-    }
-    ],
-    time: '18 mar',
-    price: '700$',
-    isArchive: false,
-    isFavorite: false,
-  },
-  {
-    description: `${typePointMap[1]} ${cities[0]}`,
-    offers: [{
-      type:'choose',
-      nameOffer: offersNameMap[1],
-      price: '100$',
-    },
-    {
-      type:'choose',
-      nameOffer: offersNameMap[2],
-      price: '100$',
-    }
-    ],
+    point: pointDestinationMap[1],
+    offers: getRandomOffers(),
     time: '19 mar',
-    price: '1400$',
+    price: '1600$',
+    isArchive: false,
+    isFavorite: false,
+  },
+  {
+    point: pointDestinationMap[2],
+    offers: getRandomOffers(),
+    time: '20 mar',
+    price: '1300$',
     isArchive: false,
     isFavorite: false,
   },
