@@ -1,5 +1,6 @@
 import {getRandomArrayElement, getRandomInteger} from '../utils.js';
 const LIMIT_COUNT_PROPOSAL = 5;
+const LIMIT_COUNT_OFFER = 7;
 
 const cities = ['Amsterdam','Chamonix','Geneva'];
 const typePointsMap = ['Taxi','Bus','Train','Ship','Drive','Flight','Check-in','Sightseeing','Restaurant',];
@@ -19,6 +20,7 @@ const descriptionsMap = ['Lorem ipsum dolor sit amet, consectetur adipiscing eli
 const offer = {
   type: '',
   nameOffer: '',
+  currency: '',
   price: 0,
 };
 
@@ -101,8 +103,14 @@ const getRandomDescriptions = () => {
 };
 
 const getRandomOffers = () => {
-
-}
+  const countOffer = getRandomInteger(LIMIT_COUNT_OFFER);
+  const arrayOffers = [];
+  for (let i = 0; i < countOffer; i++) {
+    const numberOffer = getRandomInteger(offersMap.length);
+    arrayOffers.pash(descriptionsMap[numberOffer]);
+  }
+  return arrayOffers;
+};
 
 const pointDestinationMap = [{
   description: getRandomDescriptions(),
@@ -120,7 +128,6 @@ const pointDestinationMap = [{
   photos: ['../img/photos/5.jpg'],
 }
 ];
-
 
 const mockEvents = [
   {
@@ -149,8 +156,7 @@ const mockEvents = [
   },
 ];
 
-function getRandomEvent() {
-  return getRandomArrayElement(mockEvents);
-}
+const getRandomEvent = () => getRandomArrayElement(mockEvents);
+const getEvent = (numberEvent) => mockEvents(numberEvent);
 
-export {getRandomEvent};
+export {getRandomEvent,getEvent};
