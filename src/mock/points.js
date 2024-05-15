@@ -1,4 +1,5 @@
 //const mockNameOffersMap = ['taxi','bus','train','ship','transport','flight','check-in','sightseeing','restaurant',];
+import {getRandomArrayElement} from '../utils.js';
 
 const mockPoints = [
   {
@@ -69,4 +70,8 @@ const mockPoints = [
 
 const getMockPoint = () => mockPoints;
 
-export {getMockPoint};
+function getRandomPoint() {
+  return getRandomArrayElement(mockPoints);
+}
+
+export {getRandomPoint,getMockPoint};
