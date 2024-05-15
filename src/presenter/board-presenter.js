@@ -23,6 +23,10 @@ export default class BoardPresenter {
 
   init () {
     this.boardPoints = [...this.routeModel.getPoints()];
+    this.boardOffers = [...this.routeModel.getOffers()];
+    this.boardDestinations = [...this.routeModel.getDestinations()];
+    //console.log(this.boardDestinations);
+    //console.log(this.boardOffers);
 
     render(new NewTripInfo(), this.bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
     render(new NewFilterView(), this.siteControlFilters);
@@ -34,7 +38,13 @@ export default class BoardPresenter {
     render(new NewEditEventView(), this.eventListComponent.getElement());
 
     for (let i = 1; i < this.boardPoints.length; i++) {
-      render(new NewListEventsPoint({point:this.boardPoints[i]}), this.eventListComponent.getElement());
+      const currentPoint = this.boardPoints[i];
+      const pointDestination = this.boardDestinations.find((item) => item.id === currentPoint.destination);
+      const destinationName = `${currentPoint.type} ${pointDestination.name}`;
+      const offerListByTypePoint = this.boardOffers.find((item) => item.type === currentPoint.type);
+      const currentOfferList = offerListByTypePoint.offers.filter((offer) => currentPoint.offers.find((item) => offer.id === item));
+
+      render(new NewListEventsPoint({point:currentPoint, destinationName: destinationName, currentOfferList: currentOfferList}), this.eventListComponent.getElement());
     }
   }
 }

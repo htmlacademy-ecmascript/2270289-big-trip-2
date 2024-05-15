@@ -60,7 +60,7 @@ const mockPoints = [
     dateFrom: '2020-07-10T22:55:56.845Z',
     dateTo: '2020-07-12T11:22:13.375Z',
     destination: 'dest-Omsk',
-    isFavorite: false,
+    isFavorite: true,
     offers: [
       'flight1',
     ],

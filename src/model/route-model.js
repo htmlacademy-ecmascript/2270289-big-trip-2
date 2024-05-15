@@ -8,7 +8,8 @@ export default class RouteModel {
   randomPoints = Array.from({length: POINT_COUNT}, getRandomPoint);
   points = getMockPoint();
   offers = getMockOffers();
-  destinations = getMockDestinations;
+  destinations = getMockDestinations();
+
 
   getPoints() {
     return this.points;

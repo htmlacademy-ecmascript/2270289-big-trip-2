@@ -47,7 +47,7 @@ const mockDestinations = [
   {
     id: 'dest-Omsk',
     description: 'Omsk, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: 'omsk',
+    name: 'Omsk',
     pictures: [
       {
         'src': 'https://loremflickr.com/248/152?random=234',
