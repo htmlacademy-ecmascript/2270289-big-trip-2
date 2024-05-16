@@ -34,7 +34,7 @@ export default class BoardPresenter {
 
     render(this.eventListComponent, this.siteControlTripEvents);
 
-    render(new NewAddEventView(), this.eventListComponent.getElement());
+    render(new NewAddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.getElement());
 
     const editCurrentPoint = this.boardPoints[1];
     const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
