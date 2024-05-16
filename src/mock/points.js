@@ -16,7 +16,7 @@ const mockPoints = [
     id: 'point1',
     basePrice: 1100,
     dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateTo: '2019-07-11T02:22:13.375Z',
     destination: 'dest-Amsterdam',
     isFavorite: false,
     offers: [
@@ -45,7 +45,7 @@ const mockPoints = [
     id: 'point3',
     basePrice: 2222,
     dateFrom: '2020-07-10T22:55:56.845Z',
-    dateTo: '2020-07-12T11:22:13.375Z',
+    dateTo: '2020-07-13T11:22:13.375Z',
     destination: 'dest-Geneva',
     isFavorite: false,
     offers: [
@@ -58,7 +58,7 @@ const mockPoints = [
     id: 'point4',
     basePrice: 3333,
     dateFrom: '2020-07-10T22:55:56.845Z',
-    dateTo: '2020-07-12T11:22:13.375Z',
+    dateTo: '2020-07-11T11:22:13.375Z',
     destination: 'dest-Omsk',
     isFavorite: true,
     offers: [

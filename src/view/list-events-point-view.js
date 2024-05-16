@@ -1,5 +1,5 @@
 import {createElement} from '../render.js';
-import {humanizePointDueDate} from '../utils.js';
+import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
 
 function getIconsFromTypePoint(type) {
   let icon = '';
@@ -38,7 +38,7 @@ function getOfferForPoint({title,price}) {
 
 
 function createListEventsPointTemplate(point,destinationName,currentOffers) {
-  const {basePrice, dateFrom, dateTo, isFavorite, offers, type} = point;
+  const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
 
   const favorite = isFavorite ?
     'event__favorite-btn--active' :
@@ -47,25 +47,24 @@ function createListEventsPointTemplate(point,destinationName,currentOffers) {
   return (`
   <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${humanizePointDueDate(dateFrom)}</time>
+      <time class="event__date" datetime="${humanizeDateAtribute(dateFrom)}">${humanizeDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${getIconsFromTypePoint(type)}" alt="Event type icon">
       </div>
       <h3 class="event__title">${destinationName}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${humanizePointDueDate(dateFrom)}</time>
+          <time class="event__start-time" datetime="${humanizeDateHourMinute(dateFrom)}">${humanizeMonthDayHourMinute(dateFrom)}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${humanizePointDueDate(dateTo)}</time>
+          <time class="event__end-time" datetime="${humanizeDateHourMinute(dateTo)}">${humanizeMonthDayHourMinute(dateTo)}</time>
         </p>
-        <p class="event__duration">30M</p>
+        <p class="event__duration">${durationEventPoint(dateFrom,dateTo)}</p>
       </div>
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-
         ${currentOffers.map((offer) => getOfferForPoint(offer)).join('')}
       </ul>
       <button class="event__favorite-btn ${favorite}" type="button">
