@@ -116,7 +116,7 @@ function createEditEventTemplate(point,destination,offers) {
           &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
         <input class="event__input  event__input--time" id="event-end-time-1" type="text"
-               name="event-end-time" value="${humanizeDayMonthYearSlash(point.dateFrom)}">
+               name="event-end-time" value="${humanizeDayMonthYearSlash(point.dateTo)}">
       </div>
 
       <div class="event__field-group  event__field-group--price">
