@@ -5,31 +5,32 @@ const mockDestinations = [
     name: 'Amsterdam',
     pictures: [
       {
-        'src': 'https://loremflickr.com/248/152?random=100',
-        'description': 'About Amsterdam 1'
+        src: 'https://loremflickr.com/248/152?random=100',
+        description: 'About Amsterdam 1'
       },
       {
-        'src': 'https://loremflickr.com/248/152?random=200',
-        'description': 'About Amsterdam 2'
+        src: 'https://loremflickr.com/248/152?random=200',
+        description: 'About Amsterdam 2'
       },
       {
-        'src': 'https://loremflickr.com/248/152?random=300',
-        'description': 'About Amsterdam 3'
+        src: 'https://loremflickr.com/248/152?random=300',
+        description: 'About Amsterdam 3'
       },
     ]
   },
   {
     id: 'dest-Chamonix',
-    description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
+    description: `Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France,
+                  Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.`,
     name: 'Chamonix',
     pictures: [
       {
-        'src': 'https://loremflickr.com/248/152?random=10',
-        'description': 'About Chamonix parliament building'
+        src: 'https://loremflickr.com/248/152?random=10',
+        description: 'About Chamonix parliament building'
       },
       {
-        'src': 'https://loremflickr.com/248/152?random=20',
-        'description': 'About Chamonix parliament building'
+        src: 'https://loremflickr.com/248/152?random=20',
+        description: 'About Chamonix parliament building'
       },
     ]
   },
@@ -39,8 +40,8 @@ const mockDestinations = [
     name: 'Geneva',
     pictures: [
       {
-        'src': 'https://loremflickr.com/248/152?random=100',
-        'description': 'About Geneva building'
+        src: 'https://loremflickr.com/248/152?random=100',
+        description: 'About Geneva building'
       }
     ]
   },
@@ -50,16 +51,16 @@ const mockDestinations = [
     name: 'Omsk',
     pictures: [
       {
-        'src': 'https://loremflickr.com/248/152?random=234',
-        'description': 'About Omsk picture 1'
+        src: 'https://loremflickr.com/248/152?random=234',
+        description: 'About Omsk picture 1'
       },
       {
-        'src': 'https://loremflickr.com/248/152?random=334',
-        'description': 'About Omsk picture 2'
+        src: 'https://loremflickr.com/248/152?random=334',
+        description: 'About Omsk picture 2'
       },
       {
-        'src': 'https://loremflickr.com/248/152?random=434',
-        'description': 'About Omsk picture 3'
+        src: 'https://loremflickr.com/248/152?random=434',
+        description: 'About Omsk picture 3'
       },
     ]
   },

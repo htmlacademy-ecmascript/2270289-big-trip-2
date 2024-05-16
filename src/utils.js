@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
 
-const DATE_FORMAT_D_MMMM = 'D MMMM';
 const DATE_FORMAT_MMM_D = 'MMM D';
 const DATE_FORMAT_YYYY_MM_DD = 'YYYY-MM-DD'; //2019-03-18
-const DATE_FORMAT_YYYY_MM_DD_hh_mm = 'YYYY-MM-DD hh:mm'; //2019-03-18
-const DATE_FORMAT_MM_DD_hh_mm = 'MM-DD hh:mm'; //2019-03-18
-// 2019-03-18T10:30
+const DATE_FORMAT_YYYY_MM_DD_HH_MIN = 'YYYY-MM-DD hh:mm'; //
+const DATE_FORMAT_MM_DD_HH_MIN = 'MM-DD hh:mm'; //
+const DATE_FORMAT_DD_MM_GG_SLASH = 'DD/MM/YY hh:mm'; //
 
 function getRandomInteger(limitNumber) {
   return Math.floor(Math.random() * limitNumber);
@@ -24,11 +23,15 @@ function humanizeDateAtribute(dueDate) {
 }
 
 function humanizeDateHourMinute(dueDate) {
-  return dueDate ? dayjs(dueDate).format(DATE_FORMAT_YYYY_MM_DD_hh_mm) : '' ;
+  return dueDate ? dayjs(dueDate).format(DATE_FORMAT_YYYY_MM_DD_HH_MIN) : '' ;
 }
 
 function humanizeMonthDayHourMinute(dueDate) {
-  return dueDate ? dayjs(dueDate).format(DATE_FORMAT_MM_DD_hh_mm) : '' ;
+  return dueDate ? dayjs(dueDate).format(DATE_FORMAT_MM_DD_HH_MIN) : '' ;
+}
+
+function humanizeDayMonthYearSlash(dueDate) {
+  return dueDate ? dayjs(dueDate).format(DATE_FORMAT_DD_MM_GG_SLASH) : '' ;
 }
 
 function durationEventPoint(dueDateFrom,dueDateTo) {
@@ -49,3 +52,4 @@ function durationEventPoint(dueDateFrom,dueDateTo) {
 }
 
 export {getRandomArrayElement,getRandomInteger,humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint};
+export {humanizeDayMonthYearSlash};
