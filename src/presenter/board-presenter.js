@@ -1,16 +1,17 @@
-import {RenderPosition, render} from '../render.js';
+import {render} from '../framework/render.js';
+import {RenderPosition} from '../render.js';
 
-import TripInfo from '../view/trip-info.js';
-import FilterView from '../view/filters.js';
-import SortView from '../view/sort.js';
-import Events from '../view/events.js';
-import AddEventView from '../view/add-trip-event.js';
-import EditEventView from '../view/edit-trip-event.js';
-import EventsPoint from '../view/events-point.js';
+import TripInfoView from '../view/trip-info-view.js';
+import FilterView from '../view/filters-view.js';
+import SortView from '../view/sort-view.js';
+import EventsView from '../view/events-view.js';
+import AddEventView from '../view/add-trip-event-view.js';
+import EditEventView from '../view/edit-trip-event-view.js';
+import EventsPointView from '../view/events-point-view.js';
 
 export default class BoardPresenter {
 
-  eventListComponent = new Events();
+  eventListComponent = new EventsView();
 
   constructor ({boardContainer, routeModel}) {
     this.boardContainer = boardContainer;
@@ -26,7 +27,7 @@ export default class BoardPresenter {
     this.boardOffers = [...this.routeModel.getOffers()];
     this.boardDestinations = [...this.routeModel.getDestinations()];
 
-    render(new TripInfo(), this.bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
+    render(new TripInfoView(), this.bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
     render(new FilterView(), this.siteControlFilters);
     render(new SortView(), this.siteControlTripEvents);
 
@@ -47,7 +48,7 @@ export default class BoardPresenter {
       const offerListByTypePoint = this.boardOffers.find((item) => item.type === currentPoint.type);
       const currentOfferList = offerListByTypePoint.offers.filter((offer) => currentPoint.offers.find((item) => offer.id === item));
 
-      render(new EventsPoint({point:currentPoint, destinationName: destinationName, currentOfferList: currentOfferList}), this.eventListComponent.getElement());
+      render(new EventsPointView({point:currentPoint, destinationName: destinationName, currentOfferList: currentOfferList}), this.eventListComponent.getElement());
     }
   }
 }

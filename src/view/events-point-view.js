@@ -81,7 +81,7 @@ function createEventsPointTemplate(point,destinationName,currentOffers) {
 `);
 }
 
-export default class EventsPoint {
+export default class EventsPointView {
 
   constructor ({point,destinationName,currentOfferList}) {
     this.point = point;
