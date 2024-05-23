@@ -1,4 +1,3 @@
-//import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view';
 import {humanizeDayMonthYearSlash} from '../utils.js';
 
@@ -173,16 +172,4 @@ export default class EditEventView extends AbstractView {
     return createEditEventTemplate(this.#point,this.#destination,this.#offers);
   }
 
-  /*
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
-  */
 }

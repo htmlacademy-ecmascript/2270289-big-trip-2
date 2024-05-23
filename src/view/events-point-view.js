@@ -1,4 +1,3 @@
-//import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view';
 import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
 
@@ -98,17 +97,4 @@ export default class EventsPointView extends AbstractView{
     return createEventsPointTemplate(this.#point,this.#destinationName,this.#currentOfferList);
   }
 
-  /*
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
-  */
 }

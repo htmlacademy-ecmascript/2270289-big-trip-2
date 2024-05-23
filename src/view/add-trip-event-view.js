@@ -1,4 +1,3 @@
-import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view';
 
 function getOffersByType (offersAll,type) {
@@ -181,18 +180,5 @@ export default class AddEventView extends AbstractView{
     return createAddEventTemplate(this.#offers,emptyDestination,defaultType);
   }
 
-  /*
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
-  */
 }
