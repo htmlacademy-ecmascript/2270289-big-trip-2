@@ -156,7 +156,7 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class NewEditEventView {
+export default class EditEventView {
 
   constructor ({point,destination,offers}) {
     this.point = point;

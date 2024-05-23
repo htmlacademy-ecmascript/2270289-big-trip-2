@@ -37,7 +37,7 @@ function getOfferForPoint({title,price}) {
 }
 
 
-function createListEventsPointTemplate(point,destinationName,currentOffers) {
+function createEventsPointTemplate(point,destinationName,currentOffers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
 
   const favorite = isFavorite ?
@@ -81,7 +81,7 @@ function createListEventsPointTemplate(point,destinationName,currentOffers) {
 `);
 }
 
-export default class NewListEventsPoint {
+export default class EventsPoint {
 
   constructor ({point,destinationName,currentOfferList}) {
     this.point = point;
@@ -90,7 +90,7 @@ export default class NewListEventsPoint {
   }
 
   getTemplate() {
-    return createListEventsPointTemplate(this.point,this.destinationName,this.currentOfferList);
+    return createEventsPointTemplate(this.point,this.destinationName,this.currentOfferList);
   }
 
   getElement() {

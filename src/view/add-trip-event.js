@@ -161,7 +161,7 @@ function createAddEventTemplate(offersAll,emptyDestination,defaultType) {
 `);
 }
 
-export default class NewAddEventView {
+export default class AddEventView {
 
   constructor ({points,destinations,offers}) {
     this.points = points;

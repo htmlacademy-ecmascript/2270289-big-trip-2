@@ -16,7 +16,7 @@ function createTripInfoTemplate() {
 `);
 }
 
-export default class NewTripInfo {
+export default class TripInfo {
   getTemplate() {
     return createTripInfoTemplate();
   }
