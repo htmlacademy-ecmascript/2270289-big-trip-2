@@ -1,4 +1,5 @@
-import {createElement} from '../render.js';
+//import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 
 function createTripInfoTemplate() {
   return (`
@@ -16,11 +17,11 @@ function createTripInfoTemplate() {
 `);
 }
 
-export default class TripInfoView {
-  getTemplate() {
+export default class TripInfoView extends AbstractView{
+  get template() {
     return createTripInfoTemplate();
   }
-
+  /*
   getElement() {
     if (!this.element) {
       this.element = createElement(this.getTemplate());
@@ -32,4 +33,6 @@ export default class TripInfoView {
   removeElement() {
     this.element = null;
   }
+*/
+
 }

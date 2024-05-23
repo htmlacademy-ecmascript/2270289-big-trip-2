@@ -1,4 +1,5 @@
-import {createElement} from '../render.js';
+//import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
 
 function getIconsFromTypePoint(type) {
@@ -81,18 +82,23 @@ function createEventsPointTemplate(point,destinationName,currentOffers) {
 `);
 }
 
-export default class EventsPointView {
+export default class EventsPointView extends AbstractView{
+  #point;
+  #destinationName;
+  #currentOfferList;
 
   constructor ({point,destinationName,currentOfferList}) {
-    this.point = point;
-    this.destinationName = destinationName;
-    this.currentOfferList = currentOfferList;
+    super();
+    this.#point = point;
+    this.#destinationName = destinationName;
+    this.#currentOfferList = currentOfferList;
   }
 
-  getTemplate() {
-    return createEventsPointTemplate(this.point,this.destinationName,this.currentOfferList);
+  get template() {
+    return createEventsPointTemplate(this.#point,this.#destinationName,this.#currentOfferList);
   }
 
+  /*
   getElement() {
     if (!this.element) {
       this.element = createElement(this.getTemplate());
@@ -104,4 +110,5 @@ export default class EventsPointView {
   removeElement() {
     this.element = null;
   }
+  */
 }

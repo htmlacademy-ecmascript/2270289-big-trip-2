@@ -1,4 +1,5 @@
-import {createElement} from '../render.js';
+//import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import {humanizeDayMonthYearSlash} from '../utils.js';
 
 function getOffersByType (offersAll,offersIdPoint) {
@@ -156,19 +157,23 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class EditEventView {
+export default class EditEventView extends AbstractView {
+  #point;
+  #destination;
+  #offers;
 
   constructor ({point,destination,offers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
   }
 
-
-  getTemplate() {
-    return createEditEventTemplate(this.point,this.destination,this.offers);
+  get template() {
+    return createEditEventTemplate(this.#point,this.#destination,this.#offers);
   }
 
+  /*
   getElement() {
     if (!this.element) {
       this.element = createElement(this.getTemplate());
@@ -179,4 +184,5 @@ export default class EditEventView {
   removeElement() {
     this.element = null;
   }
+  */
 }

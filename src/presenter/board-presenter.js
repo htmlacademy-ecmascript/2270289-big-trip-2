@@ -1,5 +1,5 @@
-import {render} from '../framework/render.js';
-import {RenderPosition} from '../render.js';
+import {RenderPosition,render} from '../framework/render.js';
+//import {RenderPosition,render} from '../render.js';
 
 import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
@@ -33,13 +33,13 @@ export default class BoardPresenter {
 
     render(this.eventListComponent, this.siteControlTripEvents);
 
-    render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.getElement());
+    render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
 
     const editCurrentPoint = this.boardPoints[1];
     const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
     const editOffersByType = this.boardOffers.find((item) => item.type === editCurrentPoint.type);
 
-    render(new EditEventView({point:editCurrentPoint,destination:editDestinationPoint,offers:editOffersByType}), this.eventListComponent.getElement());
+    render(new EditEventView({point:editCurrentPoint,destination:editDestinationPoint,offers:editOffersByType}), this.eventListComponent.element);
 
     for (let i = 1; i < this.boardPoints.length; i++) {
       const currentPoint = this.boardPoints[i];
@@ -48,7 +48,7 @@ export default class BoardPresenter {
       const offerListByTypePoint = this.boardOffers.find((item) => item.type === currentPoint.type);
       const currentOfferList = offerListByTypePoint.offers.filter((offer) => currentPoint.offers.find((item) => offer.id === item));
 
-      render(new EventsPointView({point:currentPoint, destinationName: destinationName, currentOfferList: currentOfferList}), this.eventListComponent.getElement());
+      render(new EventsPointView({point:currentPoint, destinationName: destinationName, currentOfferList: currentOfferList}), this.eventListComponent.element);
     }
   }
 }
