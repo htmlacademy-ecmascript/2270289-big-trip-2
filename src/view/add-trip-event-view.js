@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 
 function getOffersByType (offersAll,type) {
   const offersByType = offersAll.filter((offers) => offers.type === type);
@@ -161,30 +161,24 @@ function createAddEventTemplate(offersAll,emptyDestination,defaultType) {
 `);
 }
 
-export default class NewAddEventView {
+export default class AddEventView extends AbstractView{
+  #points;
+  #destinations;
+  #offers;
 
   constructor ({points,destinations,offers}) {
-    this.points = points;
-    this.destinations = destinations;
-    this.offers = offers;
+    super();
+    this.#points = points;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
-  getTemplate() {
+  get template() {
     const emptyDestination = null;
     const defaultType = 'flight';
 
-    return createAddEventTemplate(this.offers,emptyDestination,defaultType);
+    return createAddEventTemplate(this.#offers,emptyDestination,defaultType);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }

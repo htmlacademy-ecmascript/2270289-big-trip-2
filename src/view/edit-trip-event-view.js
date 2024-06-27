@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import {humanizeDayMonthYearSlash} from '../utils.js';
 
 function getOffersByType (offersAll,offersIdPoint) {
@@ -156,27 +156,37 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class NewEditEventView {
+export default class EditEventPointView extends AbstractView {
+  #point;
+  #destination;
+  #offers;
+  #handleEditFormButtonSave;
+  #handleEditFormButtonArrow;
 
-  constructor ({point,destination,offers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
+  constructor ({point,destination,offers,onEditFormButtonSave,onEditFormButtonArrow}) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
+    this.#handleEditFormButtonSave = onEditFormButtonSave;
+    this.#handleEditFormButtonArrow = onEditFormButtonArrow;
+
+    this.element.addEventListener('submit', this.#editFormSave);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
   }
 
-
-  getTemplate() {
-    return createEditEventTemplate(this.point,this.destination,this.offers);
+  get template() {
+    return createEditEventTemplate(this.#point,this.#destination,this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
+  #editFormSave = (evt) => {
+    evt.preventDefault();
+    this.#handleEditFormButtonSave();
+  };
 
-  removeElement() {
-    this.element = null;
-  }
+  #editArrowClick = (evt) => {
+    evt.preventDefault();
+    this.#handleEditFormButtonArrow();
+  };
+
 }

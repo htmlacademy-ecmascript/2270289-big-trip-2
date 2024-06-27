@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
 
 function getIconsFromTypePoint(type) {
@@ -37,7 +37,7 @@ function getOfferForPoint({title,price}) {
 }
 
 
-function createListEventsPointTemplate(point,destinationName,currentOffers) {
+function createEventsPointTemplate(point,destinationName,currentOffers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
 
   const favorite = isFavorite ?
@@ -81,27 +81,29 @@ function createListEventsPointTemplate(point,destinationName,currentOffers) {
 `);
 }
 
-export default class NewListEventsPoint {
+export default class EventsPointView extends AbstractView{
+  #point;
+  #destinationName;
+  #currentOfferList;
+  #handleClickButtonArrow;
 
-  constructor ({point,destinationName,currentOfferList}) {
-    this.point = point;
-    this.destinationName = destinationName;
-    this.currentOfferList = currentOfferList;
+  constructor ({point,destinationName,currentOfferList, onClickButtonArrow}) {
+    super();
+    this.#point = point;
+    this.#destinationName = destinationName;
+    this.#currentOfferList = currentOfferList;
+    this.#handleClickButtonArrow = onClickButtonArrow;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
   }
 
-  getTemplate() {
-    return createListEventsPointTemplate(this.point,this.destinationName,this.currentOfferList);
+  get template() {
+    return createEventsPointTemplate(this.#point,this.#destinationName,this.#currentOfferList);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
+  #editArrowClick = (evt) => {
+    evt.preventDefault();
+    this.#handleClickButtonArrow();
+  };
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }
