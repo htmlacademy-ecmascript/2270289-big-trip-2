@@ -156,20 +156,37 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class EditEventView extends AbstractView {
+export default class EditEventPointView extends AbstractView {
   #point;
   #destination;
   #offers;
+  #handleEditFormButtonSave;
+  #handleEditFormButtonArrow;
 
-  constructor ({point,destination,offers}) {
+  constructor ({point,destination,offers,onEditFormButtonSave,onEditFormButtonArrow}) {
     super();
     this.#point = point;
     this.#destination = destination;
     this.#offers = offers;
+    this.#handleEditFormButtonSave = onEditFormButtonSave;
+    this.#handleEditFormButtonArrow = onEditFormButtonArrow;
+
+    this.element.addEventListener('submit', this.#editFormSave);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
   }
 
   get template() {
     return createEditEventTemplate(this.#point,this.#destination,this.#offers);
   }
+
+  #editFormSave = (evt) => {
+    evt.preventDefault();
+    this.#handleEditFormButtonSave();
+  };
+
+  #editArrowClick = (evt) => {
+    evt.preventDefault();
+    this.#handleEditFormButtonArrow();
+  };
 
 }
