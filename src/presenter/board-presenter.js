@@ -35,16 +35,10 @@ export default class BoardPresenter {
     render(this.eventListComponent, this.siteControlTripEvents);
 
     //render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
-    /*
-    const editCurrentPoint = this.boardPoints[1];
-    const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
-    const editOffersByType = this.boardOffers.find((item) => item.type === editCurrentPoint.type);
-    render(new EditEventView({point:editCurrentPoint,destination:editDestinationPoint,offers:editOffersByType}), this.eventListComponent.element);
-    */
+
     for (let i = 1; i < this.boardPoints.length; i++) {
       this.#renderPoint(this.boardPoints[i],this.boardDestinations,this.boardOffers)
     }
-
   }
 
   #renderPoint (currentPoint, boardDestinations, boardOffers) {
@@ -55,7 +49,6 @@ export default class BoardPresenter {
     const currentOfferList = offerListByTypePoint.offers.filter((offer) => currentPoint.offers.find((item) => offer.id === item));
 
     const escKeyDownHandler = (evt) => {
-      console.log(evt.key);
       if (evt.key === 'Escape') {
         evt.preventDefault();
         replaceEditPointToPoint();
