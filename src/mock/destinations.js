@@ -71,15 +71,15 @@ const mockDestinations = [
     pictures: [
       {
         src: 'https://loremflickr.com/248/152?random=10',
-        description: 'About Chamonix parliament building'
+        description: 'About Washington parliament building'
       },
       {
         src: 'https://loremflickr.com/248/152?random=20',
-        description: 'About Chamonix parliament building'
+        description: 'About Washington parliament building'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=20',
-        description: 'About Chamonix parliament building'
+        src: 'https://loremflickr.com/248/152?random=30',
+        description: 'About Washington parliament building'
       },
     ]
   },
@@ -90,19 +90,19 @@ const mockDestinations = [
     pictures: [
       {
         src: 'https://loremflickr.com/248/152?random=234',
-        description: 'About Omsk picture 1'
+        description: 'About Moscow picture 1'
       },
       {
         src: 'https://loremflickr.com/248/152?random=334',
-        description: 'About Omsk picture 2'
+        description: 'About Moscow picture 2'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=434',
-        description: 'About Omsk picture 3'
+        src: 'https://loremflickr.com/248/152?random=534',
+        description: 'About Moscow picture 3'
       },
       {
-        src: 'https://loremflickr.com/248/152?random=434',
-        description: 'About Omsk picture 3'
+        src: 'https://loremflickr.com/248/152?random=634',
+        description: 'About Moscow picture 3'
       },
     ]
   },

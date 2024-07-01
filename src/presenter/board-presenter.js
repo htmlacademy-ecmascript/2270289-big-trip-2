@@ -41,10 +41,6 @@ export default class BoardPresenter {
 
     //render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
 
-    console.log(this.#boardPoints);
-    console.log('this.#boardPoints.length');
-    console.log(this.#boardPoints.length);
-
     if (this.#boardPoints.length === 0) {
       render(new EmptyPointView(), this.siteControlTripEvents);
     } else {
@@ -52,7 +48,6 @@ export default class BoardPresenter {
         this.#renderPoint(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers)
       }
     };
-
   }
 
   #renderPoint (currentPoint, boardDestinations, boardOffers) {
@@ -79,7 +74,7 @@ export default class BoardPresenter {
       }
     })
 
-    const editCurrentPoint = this.#boardPoints[1];
+    const editCurrentPoint = currentPoint;
     const editDestinationPoint = this.#boardDestinations.find((item) => item.id === editCurrentPoint.destination);
     const editOffersByType = this.#boardOffers.find((item) => item.type === editCurrentPoint.type);
 
