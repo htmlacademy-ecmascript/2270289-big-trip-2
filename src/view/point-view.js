@@ -1,30 +1,5 @@
-import AbstractView from '../framework/view/abstract-view';
+import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
-
-function getIconsFromTypePoint(type) {
-  let icon = '';
-  switch (type) {
-    case 'taxi' : icon = 'taxi.png';
-      break;
-    case 'bus' : icon = 'bus.png';
-      break;
-    case 'train' : icon = 'train.png';
-      break;
-    case 'ship' : icon = 'ship.png';
-      break;
-    case 'transport' : icon = 'transport.png';
-      break;
-    case 'flight' : icon = 'flight.png';
-      break;
-    case 'check-in' : icon = 'check-in.png';
-      break;
-    case 'sightseeing' : icon = 'sightseeing.png';
-      break;
-    case 'restaurant' : icon = 'restaurant.png';
-      break;
-  }
-  return icon;
-}
 
 function getOfferForPoint({title,price}) {
   return (`
@@ -35,7 +10,6 @@ function getOfferForPoint({title,price}) {
   </li>
 `);
 }
-
 
 function createEventsPointTemplate(point,destinationName,currentOffers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
@@ -49,7 +23,7 @@ function createEventsPointTemplate(point,destinationName,currentOffers) {
     <div class="event">
       <time class="event__date" datetime="${humanizeDateAtribute(dateFrom)}">${humanizeDate(dateFrom)}</time>
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${getIconsFromTypePoint(type)}" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">${destinationName}</h3>
       <div class="event__schedule">
@@ -81,7 +55,7 @@ function createEventsPointTemplate(point,destinationName,currentOffers) {
 `);
 }
 
-export default class EventsPointView extends AbstractView{
+export default class PointView extends AbstractView{
   #point;
   #destinationName;
   #currentOfferList;
