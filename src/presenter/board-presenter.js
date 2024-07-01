@@ -4,9 +4,9 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import AddEventView from '../view/add-trip-event-view.js';
-import EditEventPointView from '../view/edit-trip-event-view.js';
-import EventsPointView from '../view/events-point-view.js';
+import AddPointView from '../view/add-point-view.js';
+import EditPointView from '../view/edit-point-view.js';
+import PointView from '../view/point-view.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -56,7 +56,7 @@ export default class BoardPresenter {
       }
     }
 
-    const eventsPointComponent = new EventsPointView({point:currentPoint,
+    const eventsPointComponent = new PointView({point:currentPoint,
       destinationName: destinationName,
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
@@ -69,7 +69,7 @@ export default class BoardPresenter {
     const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
     const editOffersByType = this.boardOffers.find((item) => item.type === editCurrentPoint.type);
 
-    const eventsEditPointComponent = new EditEventPointView({point:currentPoint,
+    const eventsEditPointComponent = new EditPointView({point:currentPoint,
       destination:editDestinationPoint,
       offers:editOffersByType,
       onEditFormButtonSave: () => {

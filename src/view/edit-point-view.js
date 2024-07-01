@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view';
+import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeDayMonthYearSlash} from '../utils.js';
 
 function getOffersByType (offersAll,offersIdPoint) {
@@ -156,7 +156,7 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class EditEventPointView extends AbstractView {
+export default class EditPointView extends AbstractView {
   #point;
   #destination;
   #offers;
