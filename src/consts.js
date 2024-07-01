@@ -14,5 +14,7 @@ const SortType = {
   OFFERS: 'OFFERS'};
 
 const sortMap = ['day', 'event', 'time', 'price', 'offers'];
+const filterMap = ['everything','future','present','past'];
 
-export {FilterType,SortType,sortMap};
+
+export {FilterType,filterMap,SortType,sortMap};
