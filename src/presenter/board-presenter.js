@@ -4,12 +4,9 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-//import AddPointView from '../view/add-point-view.js';
 import EmptyPointView from '../view/empty-point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
-
-
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -54,8 +51,6 @@ export default class BoardPresenter {
     render(new FilterView(), this.#siteControlFilters);
     render(new SortView(), this.#siteControlTripEvents);
     render(this.eventListComponent, this.#siteControlTripEvents);
-
-    //render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
 
     if (this.#boardPoints.length === 0) {
       render(new EmptyPointView(), this.#siteControlTripEvents);
