@@ -15,6 +15,7 @@ const SortType = {
 
 const sortMap = ['day', 'event', 'time', 'price', 'offers'];
 const filterMap = ['everything','future','present','past'];
+const pathPointMap = ['Amsterdam', 'Geneva', 'Chamonix'];
 
 
-export {FilterType,filterMap,SortType,sortMap};
+export {FilterType,filterMap,SortType,sortMap,pathPointMap};

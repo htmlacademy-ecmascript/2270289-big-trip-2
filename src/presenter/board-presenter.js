@@ -9,6 +9,8 @@ import EmptyPointView from '../view/empty-point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
+
+
 export default class BoardPresenter {
   #boardContainer = null;
   #routeModel = null;
@@ -16,6 +18,8 @@ export default class BoardPresenter {
   #boardPoints = [];
   #boardOffers = [];
   #boardDestinations = [];
+
+  #boardRouteTravel = [];
 
   #bodyHeaderTripMain = null;
   #siteControlFilters = null;
@@ -37,8 +41,16 @@ export default class BoardPresenter {
     this.#boardPoints = [...this.#routeModel.randomPoints];
     this.#boardOffers = [...this.#routeModel.offers];
     this.#boardDestinations = [...this.#routeModel.destinations];
+    this.#boardRouteTravel = [...this.#routeModel.routeTravel];
 
-    render(new TripInfoView(), this.#bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
+    render(new TripInfoView({
+      routeTravel: this.#boardRouteTravel,
+      beginDate: '18',
+      endDate: '20 Mar',
+      costValue: 1230}),
+    this.#bodyHeaderTripMain,
+    RenderPosition.AFTERBEGIN);
+
     render(new FilterView(), this.#siteControlFilters);
     render(new SortView(), this.#siteControlTripEvents);
     render(this.eventListComponent, this.#siteControlTripEvents);
