@@ -4,13 +4,18 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import AddPointView from '../view/add-point-view.js';
+//import AddPointView from '../view/add-point-view.js';
+import EmptyPointView from '../view/empty-point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
   #routeModel = null;
+
+  #boardPoints = [];
+  #boardOffers = [];
+  #boardDestinations = [];
 
   eventListComponent = new EventsView();
 
@@ -25,9 +30,9 @@ export default class BoardPresenter {
   }
 
   init () {
-    this.boardPoints = [...this.#routeModel.points];
-    this.boardOffers = [...this.#routeModel.offers];
-    this.boardDestinations = [...this.#routeModel.destinations];
+    this.#boardPoints = [...this.#routeModel.randomPoints];
+    this.#boardOffers = [...this.#routeModel.offers];
+    this.#boardDestinations = [...this.#routeModel.destinations];
 
     render(new TripInfoView(), this.bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
     render(new FilterView(), this.siteControlFilters);
@@ -36,9 +41,18 @@ export default class BoardPresenter {
 
     //render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
 
-    for (let i = 1; i < this.boardPoints.length; i++) {
-      this.#renderPoint(this.boardPoints[i],this.boardDestinations,this.boardOffers)
-    }
+    console.log(this.#boardPoints);
+    console.log('this.#boardPoints.length');
+    console.log(this.#boardPoints.length);
+
+    if (this.#boardPoints.length === 0) {
+      render(new EmptyPointView(), this.siteControlTripEvents);
+    } else {
+      for (let i = 0; i < this.#boardPoints.length; i++) {
+        this.#renderPoint(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers)
+      }
+    };
+
   }
 
   #renderPoint (currentPoint, boardDestinations, boardOffers) {
@@ -56,7 +70,7 @@ export default class BoardPresenter {
       }
     }
 
-    const eventsPointComponent = new PointView({point:currentPoint,
+    const pointComponent = new PointView({point:currentPoint,
       destinationName: destinationName,
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
@@ -65,11 +79,11 @@ export default class BoardPresenter {
       }
     })
 
-    const editCurrentPoint = this.boardPoints[1];
-    const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
-    const editOffersByType = this.boardOffers.find((item) => item.type === editCurrentPoint.type);
+    const editCurrentPoint = this.#boardPoints[1];
+    const editDestinationPoint = this.#boardDestinations.find((item) => item.id === editCurrentPoint.destination);
+    const editOffersByType = this.#boardOffers.find((item) => item.type === editCurrentPoint.type);
 
-    const eventsEditPointComponent = new EditPointView({point:currentPoint,
+    const editPointComponent = new EditPointView({point:currentPoint,
       destination:editDestinationPoint,
       offers:editOffersByType,
       onEditFormButtonSave: () => {
@@ -84,14 +98,14 @@ export default class BoardPresenter {
 
 
     function replacePointToEditPoint(){
-      replace(eventsEditPointComponent, eventsPointComponent);
+      replace(editPointComponent, pointComponent);
     }
 
     function replaceEditPointToPoint(){
-      replace(eventsPointComponent, eventsEditPointComponent);
+      replace(pointComponent, editPointComponent);
     }
 
-    render(eventsPointComponent, this.eventListComponent.element);
+    render(pointComponent, this.eventListComponent.element);
 
   };
 

@@ -64,6 +64,49 @@ const mockDestinations = [
       },
     ]
   },
+  {
+    id: 'dest-Washington',
+    description: `Washington is a resort area near the junction of USA. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.`,
+    name: 'Washington',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=10',
+        description: 'About Chamonix parliament building'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=20',
+        description: 'About Chamonix parliament building'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=20',
+        description: 'About Chamonix parliament building'
+      },
+    ]
+  },
+  {
+    id: 'dest-Moscow',
+    description: 'Moscow, is a beautiful city, with crowded streets.',
+    name: 'Moscow',
+    pictures: [
+      {
+        src: 'https://loremflickr.com/248/152?random=234',
+        description: 'About Omsk picture 1'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=334',
+        description: 'About Omsk picture 2'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=434',
+        description: 'About Omsk picture 3'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?random=434',
+        description: 'About Omsk picture 3'
+      },
+    ]
+  },
+
 ];
 
 const getMockDestinations = () => mockDestinations;
