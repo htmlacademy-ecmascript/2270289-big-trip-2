@@ -4,41 +4,61 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import AddEventView from '../view/add-trip-event-view.js';
-import EditEventPointView from '../view/edit-trip-event-view.js';
-import EventsPointView from '../view/events-point-view.js';
+import EmptyPointView from '../view/empty-point-view.js';
+import EditPointView from '../view/edit-point-view.js';
+import PointView from '../view/point-view.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
   #routeModel = null;
+
+  #boardPoints = [];
+  #boardOffers = [];
+  #boardDestinations = [];
+
+  #boardRouteTravel = [];
+
+  #bodyHeaderTripMain = null;
+  #siteControlFilters = null;
+  #siteControlTripEvents = null;
 
   eventListComponent = new EventsView();
 
   constructor ({boardContainer, routeModel}) {
     this.#boardContainer = boardContainer;
 
-    this.bodyHeaderTripMain = this.#boardContainer.querySelector('.trip-main');
-    this.siteControlFilters = this.#boardContainer.querySelector('.trip-controls__filters');
-    this.siteControlTripEvents = this.#boardContainer.querySelector('.trip-events');
+    this.#bodyHeaderTripMain = this.#boardContainer.querySelector('.trip-main');
+    this.#siteControlFilters = this.#boardContainer.querySelector('.trip-controls__filters');
+    this.#siteControlTripEvents = this.#boardContainer.querySelector('.trip-events');
 
     this.#routeModel = routeModel;
   }
 
   init () {
-    this.boardPoints = [...this.#routeModel.points];
-    this.boardOffers = [...this.#routeModel.offers];
-    this.boardDestinations = [...this.#routeModel.destinations];
+    this.#boardPoints = [...this.#routeModel.randomPoints];
+    this.#boardOffers = [...this.#routeModel.offers];
+    this.#boardDestinations = [...this.#routeModel.destinations];
+    this.#boardRouteTravel = [...this.#routeModel.routeTravel];
 
-    render(new TripInfoView(), this.bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
-    render(new FilterView(), this.siteControlFilters);
-    render(new SortView(), this.siteControlTripEvents);
-    render(this.eventListComponent, this.siteControlTripEvents);
+    render(new TripInfoView({
+      routeTravel: this.#boardRouteTravel,
+      beginDate: '18',
+      endDate: '20 Mar',
+      costValue: 1230}),
+    this.#bodyHeaderTripMain,
+    RenderPosition.AFTERBEGIN);
 
-    //render(new AddEventView({points:this.boardPoints,destinations:this.boardDestinations,offers:this.boardOffers}), this.eventListComponent.element);
+    render(new FilterView(), this.#siteControlFilters);
+    render(new SortView(), this.#siteControlTripEvents);
+    render(this.eventListComponent, this.#siteControlTripEvents);
 
-    for (let i = 1; i < this.boardPoints.length; i++) {
-      this.#renderPoint(this.boardPoints[i],this.boardDestinations,this.boardOffers)
-    }
+    if (this.#boardPoints.length === 0) {
+      render(new EmptyPointView(), this.#siteControlTripEvents);
+    } else {
+      for (let i = 0; i < this.#boardPoints.length; i++) {
+        this.#renderPoint(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers)
+      }
+    };
   }
 
   #renderPoint (currentPoint, boardDestinations, boardOffers) {
@@ -56,7 +76,7 @@ export default class BoardPresenter {
       }
     }
 
-    const eventsPointComponent = new EventsPointView({point:currentPoint,
+    const pointComponent = new PointView({point:currentPoint,
       destinationName: destinationName,
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
@@ -65,11 +85,10 @@ export default class BoardPresenter {
       }
     })
 
-    const editCurrentPoint = this.boardPoints[1];
-    const editDestinationPoint = this.boardDestinations.find((item) => item.id === editCurrentPoint.destination);
-    const editOffersByType = this.boardOffers.find((item) => item.type === editCurrentPoint.type);
+    const editDestinationPoint = this.#boardDestinations.find((item) => item.id === currentPoint.destination);
+    const editOffersByType = this.#boardOffers.find((item) => item.type === currentPoint.type);
 
-    const eventsEditPointComponent = new EditEventPointView({point:currentPoint,
+    const editPointComponent = new EditPointView({point:currentPoint,
       destination:editDestinationPoint,
       offers:editOffersByType,
       onEditFormButtonSave: () => {
@@ -82,16 +101,15 @@ export default class BoardPresenter {
       }
     });
 
-
     function replacePointToEditPoint(){
-      replace(eventsEditPointComponent, eventsPointComponent);
+      replace(editPointComponent, pointComponent);
     }
 
     function replaceEditPointToPoint(){
-      replace(eventsPointComponent, eventsEditPointComponent);
+      replace(pointComponent, editPointComponent);
     }
 
-    render(eventsPointComponent, this.eventListComponent.element);
+    render(pointComponent, this.eventListComponent.element);
 
   };
 

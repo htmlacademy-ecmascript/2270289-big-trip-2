@@ -161,7 +161,7 @@ function createAddEventTemplate(offersAll,emptyDestination,defaultType) {
 `);
 }
 
-export default class AddEventView extends AbstractView{
+export default class AddPointView extends AbstractView{
   #points;
   #destinations;
   #offers;
@@ -179,6 +179,5 @@ export default class AddEventView extends AbstractView{
 
     return createAddEventTemplate(this.#offers,emptyDestination,defaultType);
   }
-
 
 }
