@@ -4,7 +4,8 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import PoinPresenter from './point-presenter.js';
+import PointPresenter from './point-presenter.js';
+import EmptyPointView from '../view/empty-point-view.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -19,8 +20,11 @@ export default class BoardPresenter {
   #bodyHeaderTripMain = null;
   #siteControlFilters = null;
   #siteControlTripEvents = null;
+  //#pointPresenter = null;
 
-  eventListComponent = new EventsView();
+  #eventListComponent = new EventsView();
+
+  #pointPresenterMap = new Map();
 
   constructor ({boardContainer, routeModel}) {
     this.#boardContainer = boardContainer;
@@ -48,7 +52,26 @@ export default class BoardPresenter {
 
     render(new FilterView(), this.#siteControlFilters);
     render(new SortView(), this.#siteControlTripEvents);
-    render(this.eventListComponent, this.#siteControlTripEvents);
+    render(this.#eventListComponent, this.#siteControlTripEvents);
+
+
+    if (this.#boardPoints.length === 0) {
+      render(new EmptyPointView(), this.#siteControlTripEvents);
+    } else {
+      for (let i = 0; i < this.#boardPoints.length; i++) {
+        const pointPresenter = new PointPresenter({
+          point:this.#boardPoints[i],
+          destinations: this.#boardDestinations,
+          offers: this.#boardOffers,
+          placeRenderList: this.#eventListComponent
+          });
+        //
+        this.#pointPresenterMap.set(this.#boardPoints[i].id,pointPresenter)
+        pointPresenter.init(this.#boardPoints[i]);
+      }
+    };
+
+
 
   }
 

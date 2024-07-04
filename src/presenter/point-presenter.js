@@ -1,30 +1,36 @@
+import {render,replace} from '../framework/render.js';
 
-import EmptyPointView from '../view/empty-point-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
-export default class PoinPresenter {
-  #points = null;
+export default class PointPresenter {
+  //#points = null;
   #destinations = null;
   #offers = null;
-  #placeRender = null;
+  #placeRenderList =null;
+  //#placeRenderEmpty = null;
 
-  constructor ({points,destinations,offers,placeRender}) {
-    this.#points = points;
+  #point = null;
+  #pointComponent = null;
+  #editPointComponent = null;
+
+  constructor ({point,destinations,offers,placeRenderList}) {
+    this.#point = point;
     this.#destinations =destinations;
     this.#offers = offers;
-    this.#placeRender = placeRender;
-
+    this.#placeRenderList = placeRenderList;
   }
 
-  init() {
-    if (this.#points.length === 0) {
-      render(new EmptyPointView(), this.#placeRender);
-    } else {
-      for (let i = 0; i < this.#points.length; i++) {
-        this.#renderPoint(this.#points[i],this.#destinations,this.#offers)
-      }
-    };
+  init(point) {
+    this.#point = point;
+    const prevPointComponent = this.#pointComponent;
+    const prevEditPointComponent = this.#editPointComponent;
+
+    console.log('this.#point');
+    console.log(this.#point);
+
+    this.#renderPoint(this.#point,this.#destinations,this.#offers)
+
   }
 
   #renderPoint (currentPoint, boardDestinations, boardOffers) {
@@ -42,7 +48,7 @@ export default class PoinPresenter {
       }
     }
 
-    const pointComponent = new PointView({point:currentPoint,
+    this.#pointComponent = new PointView({point:currentPoint,
       destinationName: destinationName,
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
@@ -54,7 +60,7 @@ export default class PoinPresenter {
     const editDestinationPoint = this.#destinations.find((item) => item.id === currentPoint.destination);
     const editOffersByType = this.#offers.find((item) => item.type === currentPoint.type);
 
-    const editPointComponent = new EditPointView({point:currentPoint,
+    this.#editPointComponent = new EditPointView({point:currentPoint,
       destination:editDestinationPoint,
       offers:editOffersByType,
       onEditFormButtonSave: () => {
@@ -75,7 +81,7 @@ export default class PoinPresenter {
       replace(pointComponent, editPointComponent);
     }
 
-    render(pointComponent, this.eventListComponent.element);
+    render(this.#pointComponent, this.#placeRenderList.element);
 
   };
 
