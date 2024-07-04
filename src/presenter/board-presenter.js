@@ -4,9 +4,7 @@ import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import EmptyPointView from '../view/empty-point-view.js';
-import EditPointView from '../view/edit-point-view.js';
-import PointView from '../view/point-view.js';
+import PoinPresenter from './point-presenter.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
@@ -52,65 +50,6 @@ export default class BoardPresenter {
     render(new SortView(), this.#siteControlTripEvents);
     render(this.eventListComponent, this.#siteControlTripEvents);
 
-    if (this.#boardPoints.length === 0) {
-      render(new EmptyPointView(), this.#siteControlTripEvents);
-    } else {
-      for (let i = 0; i < this.#boardPoints.length; i++) {
-        this.#renderPoint(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers)
-      }
-    };
   }
-
-  #renderPoint (currentPoint, boardDestinations, boardOffers) {
-
-    const pointDestination = boardDestinations.find((item) => item.id === currentPoint.destination);
-    const destinationName = `${currentPoint.type} ${pointDestination.name}`;
-    const offerListByTypePoint = boardOffers.find((item) => item.type === currentPoint.type);
-    const currentOfferList = offerListByTypePoint.offers.filter((offer) => currentPoint.offers.find((item) => offer.id === item));
-
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
-      }
-    }
-
-    const pointComponent = new PointView({point:currentPoint,
-      destinationName: destinationName,
-      currentOfferList: currentOfferList,
-      onClickButtonArrow: () => {
-        replacePointToEditPoint();
-        document.addEventListener('keydown',escKeyDownHandler)
-      }
-    })
-
-    const editDestinationPoint = this.#boardDestinations.find((item) => item.id === currentPoint.destination);
-    const editOffersByType = this.#boardOffers.find((item) => item.type === currentPoint.type);
-
-    const editPointComponent = new EditPointView({point:currentPoint,
-      destination:editDestinationPoint,
-      offers:editOffersByType,
-      onEditFormButtonSave: () => {
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
-      },
-      onEditFormButtonArrow: () => {
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
-      }
-    });
-
-    function replacePointToEditPoint(){
-      replace(editPointComponent, pointComponent);
-    }
-
-    function replaceEditPointToPoint(){
-      replace(pointComponent, editPointComponent);
-    }
-
-    render(pointComponent, this.eventListComponent.element);
-
-  };
 
 }
