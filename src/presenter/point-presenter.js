@@ -1,9 +1,9 @@
 import {render,replace,remove} from '../framework/render.js';
 
-import {Mode} from '../consts.js';
-
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
+
+import {Mode} from '../consts.js';
 
 export default class PointPresenter {
   #point = null;
@@ -38,7 +38,7 @@ export default class PointPresenter {
     console.log('this.#point');
     console.log(this.#point);
 
-    const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
+    //const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
     const destinationName = `${this.#point.type} ${this.#destinations.name}`;
     const offerListByTypePoint = this.#offers.find((item) => item.type === this.#point.type);
     const currentOfferList = offerListByTypePoint.offers.filter((offer) => this.#point.offers.find((item) => offer.id === item));
