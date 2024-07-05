@@ -77,5 +77,10 @@ export default class BoardPresenter {
     this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
   };
 
+  #handleDataTaskChange = (updatedTask) => {
+    this.#boardTasks = updateItem(this.#boardTasks, updatedTask);
+    this.#taskPresenters.get(updatedTask.id).init(updatedTask);
+  };
+
 
 }

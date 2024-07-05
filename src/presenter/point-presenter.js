@@ -49,6 +49,9 @@ export default class PointPresenter {
       onClickButtonArrow: () => {
         this.#replacePointToEditPoint();
         document.addEventListener('keydown',this.#escKeyDownHandler)
+      },
+      onClickCheckFavorite: () => {
+        this.#handleCheckFavoriteClick();
       }
     })
 
@@ -130,5 +133,10 @@ export default class PointPresenter {
       this.#replaceEditPointToPoint();
     }
   }
+
+  #handleCheckFavoriteClick = (evt) => {
+    console.log(this);
+
+  };
 
 }
