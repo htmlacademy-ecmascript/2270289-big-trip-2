@@ -1,4 +1,5 @@
-import {RenderPosition,render,replace} from '../framework/render.js';
+import {RenderPosition,render} from '../framework/render.js';
+import {updateItem} from '../utils/common.js';
 
 import TripInfoView from '../view/trip-info-view.js';
 import FilterView from '../view/filters-view.js';
@@ -77,10 +78,13 @@ export default class BoardPresenter {
     this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
   };
 
-  #handleDataTaskChange = (updatedTask) => {
-    this.#boardTasks = updateItem(this.#boardTasks, updatedTask);
-    this.#taskPresenters.get(updatedTask.id).init(updatedTask);
+  #handleUpdatePoint = (updatedPoint) => {
+    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#pointPresenterMap.get(updatedPoint.id).init(updatedPoint, this.#boardDestinations, this.#boardOffers);
   };
 
 
-}
+
+};
+
+

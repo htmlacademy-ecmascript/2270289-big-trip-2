@@ -1,9 +1,9 @@
 import {render,replace,remove} from '../framework/render.js';
+import {Mode} from '../consts.js';
 
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
-import {Mode} from '../consts.js';
 
 export default class PointPresenter {
   #point = null;
@@ -17,14 +17,16 @@ export default class PointPresenter {
 
   #mode = Mode.DEFAULT;
   #handleModeChange = null;
+  #handleDataChange = null;
 
-  constructor ({point,destinations,offers,placeRenderList,onModeChange}) {
+  constructor ({point,destinations,offers,placeRenderList,onModeChange,onDataChange}) {
     this.#point = point;
     this.#destinations =destinations;
     this.#offers = offers;
     this.#placeRenderList = placeRenderList;
 
     this.#handleModeChange = onModeChange;
+    this.#handleDataChange = onDataChange;
   }
 
   init(point,destinations,offers) {
@@ -136,7 +138,7 @@ export default class PointPresenter {
 
   #handleCheckFavoriteClick = (evt) => {
     console.log(this);
-
+    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 
 }
