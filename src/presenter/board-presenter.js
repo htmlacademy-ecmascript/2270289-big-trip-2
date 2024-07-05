@@ -64,7 +64,8 @@ export default class BoardPresenter {
           destinations: this.#boardDestinations,
           offers: this.#boardOffers,
           placeRenderList: this.#eventListComponent,
-          onModeChange: this.#handleModeChange
+          onModeChange: this.#handleModeChange,
+          onDataChange: this.#handleUpdatePoint
           });
         //
         this.#pointPresenterMap.set(this.#boardPoints[i].id,pointPresenter)
