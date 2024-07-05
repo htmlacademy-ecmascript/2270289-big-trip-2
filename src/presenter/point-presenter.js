@@ -2,7 +2,6 @@ import {render,replace,remove} from '../framework/render.js';
 
 import {Mode} from '../consts.js';
 
-
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
@@ -17,56 +16,60 @@ export default class PointPresenter {
   #newPointComponent = null;
 
   #mode = Mode.DEFAULT;
+  #handleModeChange = null;
 
-  constructor ({point,destinations,offers,placeRenderList,onDataChange,onModeChange}) {
+  constructor ({point,destinations,offers,placeRenderList,onModeChange}) {
     this.#point = point;
     this.#destinations =destinations;
     this.#offers = offers;
     this.#placeRenderList = placeRenderList;
+
+    this.#handleModeChange = onModeChange;
   }
 
   init(point,destinations,offers) {
     this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
     console.log('this.#point');
     console.log(this.#point);
 
-    this.#renderPoint(this.#point,this.#destinations,this.#offers)
+    const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
+    const destinationName = `${this.#point.type} ${this.#destinations.name}`;
+    const offerListByTypePoint = this.#offers.find((item) => item.type === this.#point.type);
+    const currentOfferList = offerListByTypePoint.offers.filter((offer) => this.#point.offers.find((item) => offer.id === item));
 
-    const pointDestination = destinations.find((item) => item.id === point.destination);
-    const destinationName = `${point.type} ${destination.name}`;
-    const offerListByTypePoint = offers.find((item) => item.type === point.type);
-    const currentOfferList = offerListByTypePoint.offers.filter((offer) => point.offers.find((item) => offer.id === item));
-
-    this.#pointComponent = new PointView({point:point,
+    this.#pointComponent = new PointView({point:this.#point,
       destinationName: destinationName,
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
-        replacePointToEditPoint();
-        document.addEventListener('keydown',escKeyDownHandler)
+        this.#replacePointToEditPoint();
+        document.addEventListener('keydown',this.#escKeyDownHandler)
       }
     })
 
-    const editDestinationPoint = this.#destinations.find((item) => item.id === point.destination);
-    const editOffersByType = this.#offers.find((item) => item.type === currentPoint.type);
+    const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
+    const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
 
-    this.#editPointComponent = new EditPointView({point:point,
+    this.#editPointComponent = new EditPointView({point:this.#point,
       destination:editDestinationPoint,
       offers:editOffersByType,
       onEditFormButtonSave: () => {
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
+        this.#replaceEditPointToPoint();
+        document.removeEventListener('keydown',this.#escKeyDownHandler);
       },
       onEditFormButtonArrow: () => {
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
+        this.#replaceEditPointToPoint();
+        document.removeEventListener('keydown',this.#escKeyDownHandler);
       }
     });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
-      render(this.#pointComponent, this.#placeRenderList);
+      render(this.#pointComponent, this.#placeRenderList.element);
       return;
     }
 
@@ -75,7 +78,7 @@ export default class PointPresenter {
     }
 
     if (this.#mode === Mode.EDITING) {
-      replace(this.#editPointComponent, prevPointEditComponent);
+      replace(this.#editPointComponent, prevEditPointComponent);
     }
 
     remove(prevPointComponent);
@@ -83,33 +86,49 @@ export default class PointPresenter {
 
   }
 
-  #renderPoint (currentPoint, boardDestinations, boardOffers) {
-
-
-    const escKeyDownHandler = (evt) => {
-      if ((evt.key === 'Escape') || (evt.key === 'esc')) {
-        evt.preventDefault();
-        replaceEditPointToPoint();
-        document.removeEventListener('keydown',escKeyDownHandler);
-      }
+ /**
+ * Функция обработки нажатия на клавишу Escape, на клавиатуре.
+ */
+  #escKeyDownHandler = (evt) => {
+    if ((evt.key === 'Escape') || (evt.key === 'Esc')) {
+      evt.preventDefault();
+      replaceEditPointToPoint();
+      document.removeEventListener('keydown',escKeyDownHandler);
     }
+  }
 
+  /**
+ * Функция перевода точки маршрута в режим редактирования.
+ */
+  #replacePointToEditPoint(){
+    replace(this.#editPointComponent, this.#pointComponent);
+    this.#handleModeChange(); // Используется для сброса состояния всех точек, чтоб толька одна точка была в режиме редактирования.
+    this.#mode = Mode.EDITING;
+  }
 
+/**
+ * Функция замены формы редактирования на точку...
+ */
+  #replaceEditPointToPoint(){
+    replace(this.#pointComponent, this.#editPointComponent);
+    this.#mode = Mode.DEFAULT;
+  }
 
+/**
+ * Функция удаления предыдущих компонентов.
+ */
+  destroy() {
+    remove(this.#pointComponent);
+    remove(this.#editPointComponent);
+  }
 
-
-    function replacePointToEditPoint(){
-      replace(editPointComponent, pointComponent);
+/**
+ * Функция сброса всех точек в исходное состояние, если какая-то находится в режиме редактирования.
+ */
+  resetView() {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#replaceEditPointToPoint();
     }
+  }
 
-    function replaceEditPointToPoint(){
-      replace(pointComponent, editPointComponent);
-    }
-
-    render(this.#pointComponent, this.#placeRenderList.element);
-
-  };
-
-
-};
-
+}

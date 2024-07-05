@@ -54,7 +54,6 @@ export default class BoardPresenter {
     render(new SortView(), this.#siteControlTripEvents);
     render(this.#eventListComponent, this.#siteControlTripEvents);
 
-
     if (this.#boardPoints.length === 0) {
       render(new EmptyPointView(), this.#siteControlTripEvents);
     } else {
@@ -63,16 +62,20 @@ export default class BoardPresenter {
           point:this.#boardPoints[i],
           destinations: this.#boardDestinations,
           offers: this.#boardOffers,
-          placeRenderList: this.#eventListComponent
+          placeRenderList: this.#eventListComponent,
+          onModeChange: this.#handleModeChange
           });
         //
         this.#pointPresenterMap.set(this.#boardPoints[i].id,pointPresenter)
-        pointPresenter.init(this.#boardPoints[i]);
+        pointPresenter.init(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers);
       }
     };
 
-
-
   }
+
+  #handleModeChange = () => {
+    this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
+  };
+
 
 }
