@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeDayMonthYearSlash} from '../utils.js';
+import {humanizeDayMonthYearSlash} from '../utils/utils.js';
 
 function getOffersByType (offersAll,offersIdPoint) {
   return offersAll.map((offer) => {

@@ -44,9 +44,9 @@ export default class TripInfoView extends AbstractView{
   }
 
   get template() {
-    console.log('create template');
-    console.log(this.#routeTravel);
-    console.log('end create template');
+    //console.log('create template');
+    //console.log(this.#routeTravel);
+    //console.log('end create template');
     return createTripInfoTemplate(this.#routeTravel,this.#beginDate,this.#endDate,this.#costValue);
   }
 

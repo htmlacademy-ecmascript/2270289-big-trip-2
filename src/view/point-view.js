@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils.js';
+import {humanizeDate,humanizeDateAtribute,humanizeDateHourMinute,humanizeMonthDayHourMinute,durationEventPoint} from '../utils/utils.js';
 
 function getOfferForPoint({title,price}) {
   return (`
@@ -60,15 +60,19 @@ export default class PointView extends AbstractView{
   #destinationName;
   #currentOfferList;
   #handleClickButtonArrow;
+  #handleClickCheckFavorite;
 
-  constructor ({point,destinationName,currentOfferList, onClickButtonArrow}) {
+  constructor ({point,destinationName,currentOfferList, onClickButtonArrow, onClickCheckFavorite}) {
     super();
     this.#point = point;
     this.#destinationName = destinationName;
     this.#currentOfferList = currentOfferList;
     this.#handleClickButtonArrow = onClickButtonArrow;
+    this.#handleClickCheckFavorite = onClickCheckFavorite
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
+
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#checkFavoriteClick);
   }
 
   get template() {
@@ -78,6 +82,11 @@ export default class PointView extends AbstractView{
   #editArrowClick = (evt) => {
     evt.preventDefault();
     this.#handleClickButtonArrow();
+  };
+
+  #checkFavoriteClick = (evt) => {
+    evt.preventDefault();
+    this.#handleClickCheckFavorite();
   };
 
 }
