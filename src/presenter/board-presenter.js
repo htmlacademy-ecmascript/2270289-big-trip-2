@@ -72,7 +72,6 @@ export default class BoardPresenter {
         pointPresenter.init(this.#boardPoints[i],this.#boardDestinations,this.#boardOffers);
       }
     };
-
   }
 
   #handleModeChange = () => {
