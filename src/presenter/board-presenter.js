@@ -52,7 +52,7 @@ export default class BoardPresenter {
     RenderPosition.AFTERBEGIN);
 
     render(new FilterView(), this.#siteControlFilters);
-    render(new SortView(), this.#siteControlTripEvents);
+    render(new SortView({onSortByType: this.#handleSortByType}), this.#siteControlTripEvents);
     render(this.#eventListComponent, this.#siteControlTripEvents);
 
     if (this.#boardPoints.length === 0) {
@@ -81,6 +81,10 @@ export default class BoardPresenter {
   #handleUpdatePoint = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
     this.#pointPresenterMap.get(updatedPoint.id).init(updatedPoint, this.#boardDestinations, this.#boardOffers);
+  };
+
+  #handleSortByType () {
+    //
   };
 
 

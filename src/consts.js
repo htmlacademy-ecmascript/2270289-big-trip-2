@@ -1,17 +1,17 @@
 
 const FilterType = {
-  EVERYTHING: 'EVERYTHING',
-  FUTURE: 'FUTURE',
-  PRESENT: 'PRESENT',
-  PAST: 'PAST',
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
 };
 
 const SortType = {
-  DAY: 'DAY',
-  EVENT: 'EVENT',
-  TIME: 'TIME',
-  PRICE: 'PRICE',
-  OFFERS: 'OFFERS'};
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'};
 
 const sortMap = ['day', 'event', 'time', 'price', 'offers'];
 const filterMap = ['everything','future','present','past'];
