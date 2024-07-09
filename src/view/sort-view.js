@@ -2,14 +2,8 @@ import AbstractView from '../framework/view/abstract-view';
 import {SortType,sortMap} from '../consts.js';
 
 function createSortItemTemplate(sortType) {
-  //
-  let disable = '';
 
-  if (sortType === 'event' || sortType === 'offers') {
-    disable = 'disabled';
-   } else {
-    disable = '';
-   };
+  const  disable = (sortType === 'event' || sortType === 'offers') ? 'disabled': '';
 
   return (`
   <div class="trip-sort__item  trip-sort__item--${sortType}">

@@ -4,7 +4,6 @@ import {Mode} from '../consts.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
-
 export default class PointPresenter {
   #point = null;
   #destinations = null;
@@ -37,9 +36,8 @@ export default class PointPresenter {
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
-    console.log('this.#point');
-    console.log(this.#point);
-
+    //console.log('this.#point');
+    //console.log(this.#point);
     //const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
     const destinationName = `${this.#point.type} ${this.#destinations.name}`;
     const offerListByTypePoint = this.#offers.find((item) => item.type === this.#point.type);
@@ -85,10 +83,8 @@ export default class PointPresenter {
     if (this.#mode === Mode.EDITING) {
       replace(this.#editPointComponent, prevEditPointComponent);
     }
-
     remove(prevPointComponent);
     remove(prevEditPointComponent);
-
   }
 
  /**
@@ -97,8 +93,8 @@ export default class PointPresenter {
   #escKeyDownHandler = (evt) => {
     if ((evt.key === 'Escape') || (evt.key === 'Esc')) {
       evt.preventDefault();
-      replaceEditPointToPoint();
-      document.removeEventListener('keydown',escKeyDownHandler);
+      this.#replaceEditPointToPoint();
+      document.removeEventListener('keydown',this.#escKeyDownHandler);
     }
   }
 
