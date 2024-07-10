@@ -36,8 +36,6 @@ export default class PointPresenter {
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
-    //console.log('this.#point');
-    //console.log(this.#point);
     //const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
     const destinationName = `${this.#point.type} ${this.#destinations.name}`;
     const offerListByTypePoint = this.#offers.find((item) => item.type === this.#point.type);

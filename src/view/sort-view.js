@@ -10,7 +10,7 @@ function createSortItemTemplate(sortType) {
       <input id="sort-${sortType}" class="trip-sort__input  visually-hidden"
         type="radio" name="trip-sort" value="sort-${sortType}" ${disable}
         data-sort-type="${sortType}">
-      <label class="trip-sort__btn" for="sort-day">${sortType}</label>
+      <label class="trip-sort__btn" for="sort-${sortType}">${sortType}</label>
     </div>
   `);
 };
@@ -40,6 +40,10 @@ export default class SortView extends AbstractView{
   }
 
   #sortTypeClick = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    evt.preventDefault();
     this.#handleSortType(evt.target.dataset.sortType);
   };
 
