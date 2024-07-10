@@ -47,7 +47,6 @@ export default class BoardPresenter {
   }
 
   init () {
-    //this.#boardPoints = [...this.#routeModel.randomPoints];
     this.#boardPoints = [...this.#routeModel.randomUniquePoints];
     this.#boardOffers = [...this.#routeModel.offers];
     this.#boardDestinations = [...this.#routeModel.destinations];
@@ -78,7 +77,6 @@ export default class BoardPresenter {
     // 2. Этот исходный массив задач необходим,
     // потому что для сортировки мы будем мутировать
     // массив в свойстве _boardPoints
-    console.log(this.#boardPoints);
     switch (sortType) {
       case SortType.DAY:
         this.#boardPoints.sort(sortPointDay);
@@ -95,7 +93,6 @@ export default class BoardPresenter {
         // мы просто запишем в _boardTasks исходный массив
         this.#boardPoints = [...this.#sourcedBoardPoints];
     }
-    console.log(this.#boardPoints);
 
     this.#currentSortType = sortType;
   }
@@ -104,9 +101,6 @@ export default class BoardPresenter {
     // - Сортируем задачи
     // - Очищаем список
     // - Рендерим список заново
-
-    //console.log('this.#currentSortType: ' + this.#currentSortType);
-    //console.log('sortType: ' + sortType);
 
     if (this.#currentSortType === sortType) {
       return;
@@ -119,11 +113,8 @@ export default class BoardPresenter {
   };
 
   #clearPointEvents () {
-    console.log('this.#pointPresenterMap',this.#pointPresenterMap);
     this.#pointPresenterMap.forEach((presenter) => presenter.destroy());
-    console.log('this.#pointPresenterMap',this.#pointPresenterMap);
     this.#pointPresenterMap.clear();
-    console.log('this.#pointPresenterMap',this.#pointPresenterMap);
   };
 
   #renderPointEvents () {
@@ -142,10 +133,7 @@ export default class BoardPresenter {
           onModeChange: this.#handleModeChange,
           onDataChange: this.#handleUpdatePoint
         });
-        console.log(itemPoint);
-        //
         this.#pointPresenterMap.set(itemPoint.id,pointPresenter);
-        console.log(this.#pointPresenterMap);
         pointPresenter.init(itemPoint,this.#boardDestinations,this.#boardOffers);
       });
     };

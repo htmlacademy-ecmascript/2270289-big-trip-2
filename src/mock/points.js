@@ -82,7 +82,6 @@ const mockPoints = [
     ],
     type: 'ship'
   },
-  ,
   {
     id: 'point6',
     basePrice: 6452,
@@ -97,7 +96,6 @@ const mockPoints = [
     ],
     type: 'ship'
   },
-  ,
   {
     id: 'point7',
     basePrice: 4245,
@@ -109,7 +107,7 @@ const mockPoints = [
       'flight1',
       'flight2',
     ],
-    type: 'flight1'
+    type: 'flight'
   },
 ];
 
@@ -132,35 +130,10 @@ function getRandomPoint() {
   return getRandomArrayElement(mockPoints);
 }
 
-function getRandomIdPoint() {
-  return getRandomArrayElement(mockPoints.id);
-}
-
-function findIdItemOnArrayById (id,items) {
-  items.forEach((item) => {
-    if (item.id === id) {
-      return item.id;
-    }
-  });
-  return '';
-}
-
 function getRandomUniquePoint(count) {
   const randomPoints = Array.from({length:count},getRandomPoint);
   const randomPointsSet = new Set(randomPoints);
   return Array.from(randomPointsSet);
-
-  //const idPoints = Array.from({length:count},getRandomIdPoint)
-  //const idPointsSet = new Set(idPoints);
-  /*
-  const returnArray = [];
-  idPointsSet.forEach((item) =>  {
-    findIdItemOnArrayById(item,)
-    returnArray.push(mockPoints[1]);
-  })
-  return getRandomArrayElement(mockPoints);
-  */
 }
-
 
 export {getRandomPoint,getMockPoint,getRandomUniquePoint};

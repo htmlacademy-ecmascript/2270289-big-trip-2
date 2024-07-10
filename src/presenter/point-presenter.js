@@ -18,10 +18,11 @@ export default class PointPresenter {
   #handleModeChange = null;
   #handleDataChange = null;
 
-  constructor ({point,destinations,offers,placeRenderList,onModeChange,onDataChange}) {
-    this.#point = point;
-    this.#destinations =destinations;
-    this.#offers = offers;
+  //constructor ({point,destinations,offers,placeRenderList,onModeChange,onDataChange}) {
+    //this.#point = point;
+    //this.#destinations =destinations;
+    //this.#offers = offers;
+  constructor ({placeRenderList,onModeChange,onDataChange}) {
     this.#placeRenderList = placeRenderList;
 
     this.#handleModeChange = onModeChange;
@@ -36,8 +37,9 @@ export default class PointPresenter {
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
-    //const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
-    const destinationName = `${this.#point.type} ${this.#destinations.name}`;
+    const pointDestination = this.#destinations.find((item) => item.id === this.#point.destination);
+    const destinationName = `${this.#point.type} ${pointDestination.name}`;
+
     const offerListByTypePoint = this.#offers.find((item) => item.type === this.#point.type);
     const currentOfferList = offerListByTypePoint.offers.filter((offer) => this.#point.offers.find((item) => offer.id === item));
 
@@ -131,7 +133,6 @@ export default class PointPresenter {
   }
 
   #handleCheckFavoriteClick = () => {
-    console.log(this.#point);
     this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 
