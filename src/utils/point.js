@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 
 const getDifferensInMilliseconds = (dateFrom, dateTo) => dayjs.utc(dateTo).diff(dayjs.utc(dateFrom));
 
-
-function sortPointDay() {
-  console.log('Сортируем по дню')
+function sortPointDay(pointA, pointB) {
+  console.log('Сортируем по дате');
+  return dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom))
 }
 
 function sortPointTime(pointA, pointB) {
