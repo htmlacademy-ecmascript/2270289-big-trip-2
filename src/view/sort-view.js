@@ -3,7 +3,7 @@ import {sortMap} from '../consts.js';
 
 function createSortItemTemplate(sortType) {
 
-  const  disable = (sortType === 'event' || sortType === 'offers') ? 'disabled': '';
+  const  disable = (sortType === 'event' || sortType === 'offers') ? 'disabled' : '';
 
   return (`
   <div class="trip-sort__item  trip-sort__item--${sortType}">
@@ -29,10 +29,8 @@ export default class SortView extends AbstractView{
   constructor ({onSortByType}) {
     super();
     this.#handleSortType = onSortByType;
-
     this.element.querySelectorAll('.trip-sort__input').forEach((input) => { input.addEventListener('click', this.#sortTypeClick);
     });
-
   }
 
   get template() {

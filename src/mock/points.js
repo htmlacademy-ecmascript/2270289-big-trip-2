@@ -136,4 +136,4 @@ function getRandomUniquePoint(count) {
   return Array.from(randomPointsSet);
 }
 
-export {getRandomPoint,getMockPoint,getRandomUniquePoint};
+export {getRandomPoint,getMockPoint,getRandomUniquePoint,mockDefaultPoint};

@@ -118,7 +118,6 @@ export default class BoardPresenter {
   };
 
   #renderPointEvents () {
-    //
     render(this.#eventListComponent, this.#siteControlTripEvents);
 
     if (this.#boardPoints.length === 0) {
@@ -147,17 +146,17 @@ export default class BoardPresenter {
   #renderFilter() {
     this.#filterComponent = new FilterView();
     render(this.#filterComponent, this.#siteControlFilters);
-  }
+  };
 
   #renderTripInfo () {
     this.#tripInfoComponent = new TripInfoView({
       routeTravel: this.#boardRouteTravel,
       beginDate: '18',
       endDate: '20 Mar',
-      costValue: 1230})
+      costValue: 1230});
 
     render(this.#tripInfoComponent,this.#bodyHeaderTripMain, RenderPosition.AFTERBEGIN);
-  }
+  };
 
 };
 

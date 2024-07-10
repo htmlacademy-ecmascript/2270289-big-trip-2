@@ -8,11 +8,11 @@ export default class PointPresenter {
   #point = null;
   #destinations = null;
   #offers = null;
-  #placeRenderList =null;
+  #placeRenderList = null;
 
   #pointComponent = null;
   #editPointComponent = null;
-  #newPointComponent = null;
+  //#newPointComponent = null;
 
   #mode = Mode.DEFAULT;
   #handleModeChange = null;
@@ -48,12 +48,12 @@ export default class PointPresenter {
       currentOfferList: currentOfferList,
       onClickButtonArrow: () => {
         this.#replacePointToEditPoint();
-        document.addEventListener('keydown',this.#escKeyDownHandler)
+        document.addEventListener('keydown',this.#escKeyDownHandler);
       },
       onClickCheckFavorite: () => {
         this.#handleCheckFavoriteClick();
       }
-    })
+    });
 
     const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
     const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
@@ -85,7 +85,7 @@ export default class PointPresenter {
     }
     remove(prevPointComponent);
     remove(prevEditPointComponent);
-  }
+  };
 
  /**
  * Функция обработки нажатия на клавишу Escape, на клавиатуре.
@@ -95,8 +95,8 @@ export default class PointPresenter {
       evt.preventDefault();
       this.#replaceEditPointToPoint();
       document.removeEventListener('keydown',this.#escKeyDownHandler);
-    }
-  }
+    };
+  };
 
   /**
  * Функция перевода точки маршрута в режим редактирования.
@@ -105,7 +105,7 @@ export default class PointPresenter {
     replace(this.#editPointComponent, this.#pointComponent);
     this.#handleModeChange(); // Используется для сброса состояния всех точек, чтоб толька одна точка была в режиме редактирования.
     this.#mode = Mode.EDITING;
-  }
+  };
 
 /**
  * Функция замены формы редактирования на точку...
@@ -113,7 +113,7 @@ export default class PointPresenter {
   #replaceEditPointToPoint(){
     replace(this.#pointComponent, this.#editPointComponent);
     this.#mode = Mode.DEFAULT;
-  }
+  };
 
 /**
  * Функция удаления предыдущих компонентов.
@@ -121,7 +121,7 @@ export default class PointPresenter {
   destroy() {
     remove(this.#pointComponent);
     remove(this.#editPointComponent);
-  }
+  };
 
 /**
  * Функция сброса всех точек в исходное состояние, если какая-то находится в режиме редактирования.
@@ -129,8 +129,8 @@ export default class PointPresenter {
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
       this.#replaceEditPointToPoint();
-    }
-  }
+    };
+  };
 
   #handleCheckFavoriteClick = () => {
     this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
