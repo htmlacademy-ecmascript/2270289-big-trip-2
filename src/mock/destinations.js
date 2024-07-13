@@ -66,7 +66,7 @@ const mockDestinations = [
   },
   {
     id: 'dest-Washington',
-    description: `Washington is a resort area near the junction of USA. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.`,
+    description: 'Washington is a resort area near the junction of USA. At the base of Mont Blanc, the highest summit in the Alps, it\'s renowned for its skiing.',
     name: 'Washington',
     pictures: [
       {

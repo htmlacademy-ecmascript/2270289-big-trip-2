@@ -2,8 +2,8 @@ import AbstractView from '../framework/view/abstract-view';
 
 function createRouteTravel(pathPointMap) {
   let stringRoute = pathPointMap[0];
-  for (let i = 1; i<pathPointMap.length; i++) {
-    stringRoute = stringRoute + ' &mdash; ' + pathPointMap[i];
+  for (let i = 1; i < pathPointMap.length; i++) {
+    stringRoute = `${stringRoute} &mdash; ${pathPointMap[i]}`;
   }
   return stringRoute;
 }
@@ -44,9 +44,7 @@ export default class TripInfoView extends AbstractView{
   }
 
   get template() {
-    //console.log('create template');
-    //console.log(this.#routeTravel);
-    //console.log('end create template');
+
     return createTripInfoTemplate(this.#routeTravel,this.#beginDate,this.#endDate,this.#costValue);
   }
 

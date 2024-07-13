@@ -4,8 +4,8 @@ const mockPoints = [
   {
     id: 'point0',
     basePrice: 1000,
-    dateFrom: '2019-07-06T22:55:56.845Z',
-    dateTo: '2019-07-07T02:22:13.375Z',
+    dateFrom: '2019-07-07T22:55:56.845Z',
+    dateTo: '2019-07-08T02:22:13.375Z',
     destination: 'dest-Moscow',
     isFavorite: false,
     offers: [
@@ -32,8 +32,8 @@ const mockPoints = [
   {
     id: 'point2',
     basePrice: 1111,
-    dateFrom: '2020-07-10T22:55:56.845Z',
-    dateTo: '2020-07-12T11:22:13.375Z',
+    dateFrom: '2020-07-08T22:55:56.845Z',
+    dateTo: '2020-07-09T11:22:13.375Z',
     destination: 'dest-Chamonix',
     isFavorite: false,
     offers: [
@@ -59,8 +59,8 @@ const mockPoints = [
   {
     id: 'point4',
     basePrice: 3333,
-    dateFrom: '2020-07-10T22:55:56.845Z',
-    dateTo: '2020-07-11T11:22:13.375Z',
+    dateFrom: '2020-07-13T22:55:56.845Z',
+    dateTo: '2020-07-14T11:22:13.375Z',
     destination: 'dest-Omsk',
     isFavorite: true,
     offers: [
@@ -81,6 +81,33 @@ const mockPoints = [
       'ship5',
     ],
     type: 'ship'
+  },
+  {
+    id: 'point6',
+    basePrice: 6452,
+    dateFrom: '2020-07-19T22:55:56.845Z',
+    dateTo: '2020-07-20T11:22:13.375Z',
+    destination: 'dest-Washington',
+    isFavorite: false,
+    offers: [
+      'ship1',
+      'ship2',
+      'ship5',
+    ],
+    type: 'ship'
+  },
+  {
+    id: 'point7',
+    basePrice: 4245,
+    dateFrom: '2020-07-22T22:55:56.845Z',
+    dateTo: '2020-07-23T11:22:13.375Z',
+    destination: 'dest-Washington',
+    isFavorite: false,
+    offers: [
+      'flight1',
+      'flight2',
+    ],
+    type: 'flight'
   },
 ];
 
@@ -103,4 +130,10 @@ function getRandomPoint() {
   return getRandomArrayElement(mockPoints);
 }
 
-export {getRandomPoint,getMockPoint};
+function getRandomUniquePoint(count) {
+  const randomPoints = Array.from({length:count},getRandomPoint);
+  const randomPointsSet = new Set(randomPoints);
+  return Array.from(randomPointsSet);
+}
+
+export {getRandomPoint,getMockPoint,getRandomUniquePoint,mockDefaultPoint};
