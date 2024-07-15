@@ -12,7 +12,6 @@ function createPeriodTravel(beginDate,endDate) {
   return (`${beginDate}&nbsp;&mdash;&nbsp;${endDate}`);
 }
 
-
 function createTripInfoTemplate(pathPointMap,beginDate,endDate,costValue) {
   return (`
   <section class="trip-main__trip-info  trip-info">
