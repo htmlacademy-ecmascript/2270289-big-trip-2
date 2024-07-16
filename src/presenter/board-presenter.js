@@ -1,4 +1,4 @@
-import {RenderPosition,render} from '../framework/render.js';
+import {RenderPosition,render,remove} from '../framework/render.js';
 import {updateItem} from '../utils/common.js';
 
 import TripInfoView from '../view/trip-info-view.js';
@@ -33,7 +33,7 @@ export default class BoardPresenter {
   #eventListComponent = new EventsView();
   //#pointPresenter = null;
 
-  #currentSortType = SortType.DEFAULT;
+  #currentSortType = SortType.DAY;
   #sourcedBoardPoints = [];
 
   constructor ({boardContainer, routeModel}) {
@@ -86,14 +86,12 @@ export default class BoardPresenter {
         break;
       case SortType.PRICE:
         this.#boardPoints.sort(sortPointPrice);
-
         break;
       default:
         // 3. А когда пользователь захочет "вернуть всё, как было",
         // мы просто запишем в _boardTasks исходный массив
         this.#boardPoints = [...this.#sourcedBoardPoints];
     }
-
     this.#currentSortType = sortType;
   }
 
@@ -101,15 +99,15 @@ export default class BoardPresenter {
     // - Сортируем задачи
     // - Очищаем список
     // - Рендерим список заново
-
     if (this.#currentSortType === sortType) {
       return;
     }
-
+    this.#currentSortType = sortType;
+    remove(this.#sortComponent);
+    this.#renderSort();
     this.#sortPoints(sortType);
     this.#clearPointEvents();
     this.#renderPointEvents();
-
   };
 
   #clearPointEvents () {
@@ -139,7 +137,7 @@ export default class BoardPresenter {
   };
 
   #renderSort() {
-    this.#sortComponent = new SortView({onSortByType: this.#handleSortByType});
+    this.#sortComponent = new SortView({currentSortType: this.#currentSortType, onSortByType: this.#handleSortByType});
     render(this.#sortComponent, this.#siteControlTripEvents);
   };
 
