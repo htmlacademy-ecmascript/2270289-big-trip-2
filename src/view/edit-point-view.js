@@ -1,5 +1,11 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeDayMonthYearSlash} from '../utils/utils.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+
+import {mockDefaultPoint} from '../mock/points.js';
+
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 function getOffersByType (offersAll,offersIdPoint) {
   return offersAll.map((offer) => {
@@ -156,7 +162,9 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-export default class EditPointView extends AbstractView {
+
+//export default class EditPointView extends AbstractView {
+export default class EditPointView extends AbstractStatefulView {
   #point;
   #destination;
   #offers;
@@ -165,7 +173,10 @@ export default class EditPointView extends AbstractView {
 
   constructor ({point,destination,offers,onEditFormButtonSave,onEditFormButtonArrow}) {
     super();
-    this.#point = point;
+    //this.#point = point;
+
+    this._setState(EditPointView.parsePointToState(point));
+
     this.#destination = destination;
     this.#offers = offers;
     this.#handleEditFormButtonSave = onEditFormButtonSave;
@@ -176,17 +187,53 @@ export default class EditPointView extends AbstractView {
   }
 
   get template() {
-    return createEditEventTemplate(this.#point,this.#destination,this.#offers);
+    //return createEditEventTemplate(this.#point,this.#destination,this.#offers);
+    return createEditEventTemplate(this._state,this.#destination,this.#offers);
   }
 
   #editFormSave = (evt) => {
     evt.preventDefault();
-    this.#handleEditFormButtonSave();
+    //this.#handleEditFormButtonSave();
+    this.#handleEditFormButtonSave(EditPointView.parseStateToPoint(this._state));
   };
 
   #editArrowClick = (evt) => {
     evt.preventDefault();
-    this.#handleEditFormButtonArrow();
+    //this.#handleEditFormButtonArrow();
+    this.#handleEditFormButtonSave(EditPointView.parseStateToPoint(this._state));
   };
+
+  static parsePointToState(point) {
+    return {...point
+      //,
+      //isDueDate: point.dueDate !== null,
+      //isRepeating: isPointRepeating(point.repeating),
+    };
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state};
+/*
+    if (!point.isDueDate) {
+      point.dueDate = null;
+    }
+
+    if (!point.isRepeating) {
+      point.repeating = {
+        mo: false,
+        tu: false,
+        we: false,
+        th: false,
+        fr: false,
+        sa: false,
+        su: false,
+      };
+    }
+*/
+//    delete point.isDueDate;
+//    delete point.isRepeating;
+
+    return point;
+  }
 
 }
