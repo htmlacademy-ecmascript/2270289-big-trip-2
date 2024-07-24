@@ -61,6 +61,8 @@ export default class PointPresenter {
     this.#editPointComponent = new EditPointView({point:this.#point,
       destination:editDestinationPoint,
       offers:editOffersByType,
+      allDestinations: this.#destinations,
+      allOffers: this.#offers,
       onEditFormButtonSave: () => {
         this.#replaceEditPointToPoint();
         document.removeEventListener('keydown',this.#escKeyDownHandler);

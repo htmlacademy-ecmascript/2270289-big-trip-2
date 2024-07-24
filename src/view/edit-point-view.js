@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+//import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeDayMonthYearSlash} from '../utils/utils.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
@@ -37,9 +37,24 @@ function getPhotosByDestination (destination) {
   }
 }
 
-function createEditEventTemplate(point,destination,offers) {
+function createPointTypeItem(types) {
+  return types.map((itemType) => {
+    return `<div class="event__type-item">
+              <input id="event-type-${itemType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${itemType}">
+              <label class="event__type-label  event__type-label--${itemType}" for="event-type-${itemType}-1">${itemType}</label>
+            </div>`;
+  }).join('');
+}
+
+function createPointDestinationNameItem(names) {
+  return names.map((itemName) => `<option value="${itemName}"></option>`).join('');
+}
+
+//namesDestination
+function createEditEventTemplate(point,destination,offers,typesOffer,namesDestination) {
   const offersAll = [...offers.offers];
   const offersIdPoint = [...point.offers];
+  console.log('namesDestination',namesDestination);
   return (`
 <li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -54,51 +69,7 @@ function createEditEventTemplate(point,destination,offers) {
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-
-          <div class="event__type-item">
-            <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-            <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-            <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-            <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-            <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-            <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked>
-            <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-            <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-            <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-          </div>
-
-          <div class="event__type-item">
-            <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-            <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-          </div>
+          ${createPointTypeItem(typesOffer)}
         </fieldset>
       </div>
     </div>
@@ -109,9 +80,7 @@ function createEditEventTemplate(point,destination,offers) {
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
         <datalist id="destination-list-1">
-          <option value="Amsterdam"></option>
-          <option value="Geneva"></option>
-          <option value="Chamonix"></option>
+          ${createPointDestinationNameItem(namesDestination)}
         </datalist>
       </div>
 
@@ -162,16 +131,19 @@ function createEditEventTemplate(point,destination,offers) {
   `);
 }
 
-
 //export default class EditPointView extends AbstractView {
 export default class EditPointView extends AbstractStatefulView {
   #point;
   #destination;
   #offers;
+
+  #allDestinations;
+  #allOffers;
+
   #handleEditFormButtonSave;
   #handleEditFormButtonArrow;
 
-  constructor ({point,destination,offers,onEditFormButtonSave,onEditFormButtonArrow}) {
+  constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow}) {
     super();
     //this.#point = point;
 
@@ -179,17 +151,44 @@ export default class EditPointView extends AbstractStatefulView {
 
     this.#destination = destination;
     this.#offers = offers;
+
+    this.#allDestinations = allDestinations;
+    this.#allOffers = allOffers;
+
     this.#handleEditFormButtonSave = onEditFormButtonSave;
     this.#handleEditFormButtonArrow = onEditFormButtonArrow;
 
+    this._restoreHandlers();
+  }
+
+  _restoreHandlers() {
+    // Обработчик на сохранение формы
     this.element.addEventListener('submit', this.#editFormSave);
+    // Обработчик на стрелку
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
+    // Обработчик на выбор типа передвижения
+    this.element.querySelector('.event__type-btn').addEventListener('click', this.#selectionTypeMovement);
+    // Обработчик на выбор места назначения
+    this.element.querySelector('.event__input--destination').addEventListener('click', this.#selectionDestination);
+  }
+
+  #selectionTypeMovement () {
+    //
+  }
+
+  #selectionDestination () {
+    //
   }
 
   get template() {
     //return createEditEventTemplate(this.#point,this.#destination,this.#offers);
-    return createEditEventTemplate(this._state,this.#destination,this.#offers);
+    const typesOffer = this.#allOffers.map((offer) => offer.type);
+    const namesDestination = this.#allDestinations.map((destination) => destination.name);
+    //console.log(namesDestination);
+    return createEditEventTemplate(this._state,this.#destination,this.#offers,typesOffer,namesDestination);
   }
+
+
 
   #editFormSave = (evt) => {
     evt.preventDefault();
