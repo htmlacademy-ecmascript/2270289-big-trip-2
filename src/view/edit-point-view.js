@@ -54,7 +54,7 @@ function createPointDestinationNameItem(names) {
 function createEditEventTemplate(point,destination,offers,typesOffer,namesDestination) {
   const offersAll = [...offers.offers];
   const offersIdPoint = [...point.offers];
-  console.log('namesDestination',namesDestination);
+  //console.log('namesDestination',namesDestination);
   return (`
 <li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -129,11 +129,15 @@ function createEditEventTemplate(point,destination,offers,typesOffer,namesDestin
   </form>
 </li>
   `);
+
 }
 
 //export default class EditPointView extends AbstractView {
 export default class EditPointView extends AbstractStatefulView {
-  #point;
+  //#point;
+
+  #datepicker = null;
+
   #destination;
   #offers;
 
@@ -142,6 +146,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #handleEditFormButtonSave;
   #handleEditFormButtonArrow;
+
 
   constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow}) {
     super();
@@ -161,44 +166,130 @@ export default class EditPointView extends AbstractStatefulView {
     this._restoreHandlers();
   }
 
+  // Перегружаем метод родителя removeElement,
+  // чтобы при удалении удалялся более не нужный календарь
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
+    }
+  }
+
+  #dateFromChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateFrom: userDate,
+    });
+  };
+
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateTo: userDate,
+    });
+  };
+
+  #dateFromToggleHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      dateFrom: !this._state.dateFrom,
+    });
+  };
+
+  #dateToToggleHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      dateTo: !this._state.dateTo,
+    });
+  };
+
+
+  #setFromDatepicker() {
+    if (this._state.dateFrom) {
+      // flatpickr есть смысл инициализировать только в случае,
+      // если поле выбора даты доступно для заполнения
+      this.#datepicker = flatpickr(
+        this.element.querySelector('#event-start-time-1'),
+        {
+          dateFormat: 'j F',
+          defaultDate: this._state.dateFrom,
+          onChange: this.#dateFromChangeHandler, // На событие flatpickr передаём наш колбэк
+        },
+      );
+    }
+  }
+
+  #setToDatepicker() {
+    if (this._state.dateTo) {
+      // flatpickr есть смысл инициализировать только в случае,
+      // если поле выбора даты доступно для заполнения
+      this.#datepicker = flatpickr(
+        this.element.querySelector('#event-end-time-1'),
+        {
+          dateFormat: 'j F',
+          defaultDate: this._state.dateTo,
+          onChange: this.#dateToChangeHandler, // На событие flatpickr передаём наш колбэк
+        },
+      );
+    }
+  }
+
   _restoreHandlers() {
     // Обработчик на сохранение формы
     this.element.addEventListener('submit', this.#editFormSave);
     // Обработчик на стрелку
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
     // Обработчик на выбор типа передвижения
-    this.element.querySelector('.event__type-btn').addEventListener('click', this.#selectionTypeMovement);
+    this.element.querySelector('.event__type-group').addEventListener('click', this.#selectionTypeMovement);
     // Обработчик на выбор места назначения
-    this.element.querySelector('.event__input--destination').addEventListener('click', this.#selectionDestination);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#selectionDestination);
+    // Обработчик на выбор даты начала
+    this.element.querySelector('#event-start-time-1').addEventListener('click', this.#dateFromToggleHandler);
+    // Обработчик на выбор даты конца
+    this.element.querySelector('#event-end-time-1').addEventListener('click', this.#dateToToggleHandler);
+
+    this.#setFromDatepicker();
+    this.#setToDatepicker();
   }
 
-  #selectionTypeMovement () {
-    //
+  #selectionTypeMovement = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    evt.preventDefault();
+    this._setState({
+      type : evt.target.value,
+    });
+    console.log(this._state);
   }
 
-  #selectionDestination () {
-    //
+  #selectionDestination = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    evt.preventDefault();
+    this._setState({
+      destination : `dest-${evt.target.value}`,
+    });
+  }
+
+  reset(point) {
+    this.updateElement(EditPointView.parsePointToState(point));
   }
 
   get template() {
-    //return createEditEventTemplate(this.#point,this.#destination,this.#offers);
     const typesOffer = this.#allOffers.map((offer) => offer.type);
     const namesDestination = this.#allDestinations.map((destination) => destination.name);
-    //console.log(namesDestination);
     return createEditEventTemplate(this._state,this.#destination,this.#offers,typesOffer,namesDestination);
   }
 
-
-
   #editFormSave = (evt) => {
     evt.preventDefault();
-    //this.#handleEditFormButtonSave();
     this.#handleEditFormButtonSave(EditPointView.parseStateToPoint(this._state));
   };
 
   #editArrowClick = (evt) => {
     evt.preventDefault();
-    //this.#handleEditFormButtonArrow();
     this.#handleEditFormButtonSave(EditPointView.parseStateToPoint(this._state));
   };
 
@@ -234,5 +325,7 @@ export default class EditPointView extends AbstractStatefulView {
 
     return point;
   }
+
+
 
 }
