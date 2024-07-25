@@ -259,7 +259,13 @@ export default class EditPointView extends AbstractStatefulView {
     evt.preventDefault();
     this._setState({
       type : evt.target.value,
+      //offers : this.#changePointByType(evt.target.value)
     });
+    this._restoreHandlers;
+    this.updateElement(this._state);
+    console.log('_state.offers',this._state.offers);
+    console.log('#changePointByType',this.#changePointByType(evt.target.value));
+
     console.log(this._state);
   }
 
@@ -271,7 +277,20 @@ export default class EditPointView extends AbstractStatefulView {
     this._setState({
       destination : `dest-${evt.target.value}`,
     });
+    this.#changePointByDestination;
+    this.updateElement(this._state);
   }
+
+  #changePointByType = (type) => {
+    //
+    //const offerListByTypePoint =
+    //const currentOfferList = offerListByTypePoint.offers.filter((offer) => this.#point.offers.find((item) => offer.id === item));
+    return this.#allOffers.find((item) => item.type === type);
+  };
+
+  #changePointByDestination = () => {
+    //
+  };
 
   reset(point) {
     this.updateElement(EditPointView.parsePointToState(point));
