@@ -136,7 +136,8 @@ function createEditEventTemplate(point,destination,offers,typesOffer,namesDestin
 export default class EditPointView extends AbstractStatefulView {
   //#point;
 
-  #datepicker = null;
+  #datepickerFrom = null;
+  #datepickerTo = null;
 
   #destination;
   #offers;
@@ -171,9 +172,13 @@ export default class EditPointView extends AbstractStatefulView {
   removeElement() {
     super.removeElement();
 
-    if (this.#datepicker) {
-      this.#datepicker.destroy();
-      this.#datepicker = null;
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
     }
   }
 
@@ -189,6 +194,7 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
+/*
   #dateFromToggleHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({
@@ -202,32 +208,26 @@ export default class EditPointView extends AbstractStatefulView {
       dateTo: !this._state.dateTo,
     });
   };
+*/
 
-
-  #setFromDatepicker() {
-    if (this._state.dateFrom) {
+  #setDatepicker = () => {
+    if ((this._state.dateFrom) && (this._state.dateTo)) {
       // flatpickr есть смысл инициализировать только в случае,
       // если поле выбора даты доступно для заполнения
-      this.#datepicker = flatpickr(
+      this.#datepickerFrom = flatpickr(
         this.element.querySelector('#event-start-time-1'),
         {
-          dateFormat: 'j F',
+          dateFormat: 'j/m/y H:S',
           defaultDate: this._state.dateFrom,
           onChange: this.#dateFromChangeHandler, // На событие flatpickr передаём наш колбэк
         },
       );
-    }
-  }
-
-  #setToDatepicker() {
-    if (this._state.dateTo) {
-      // flatpickr есть смысл инициализировать только в случае,
-      // если поле выбора даты доступно для заполнения
-      this.#datepicker = flatpickr(
+      this.#datepickerTo = flatpickr(
         this.element.querySelector('#event-end-time-1'),
         {
-          dateFormat: 'j F',
+          dateFormat: 'j/m/y H:S',
           defaultDate: this._state.dateTo,
+          minDate: this._state.dateFrom,
           onChange: this.#dateToChangeHandler, // На событие flatpickr передаём наш колбэк
         },
       );
@@ -243,13 +243,19 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__type-group').addEventListener('click', this.#selectionTypeMovement);
     // Обработчик на выбор места назначения
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#selectionDestination);
-    // Обработчик на выбор даты начала
-    this.element.querySelector('#event-start-time-1').addEventListener('click', this.#dateFromToggleHandler);
-    // Обработчик на выбор даты конца
-    this.element.querySelector('#event-end-time-1').addEventListener('click', this.#dateToToggleHandler);
+    // Обработчик на изменение цены путешествия
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#onChangePricePoint);
 
-    this.#setFromDatepicker();
-    this.#setToDatepicker();
+    // инициализация flatpickr, на выбор дат
+    this.#setDatepicker();
+  }
+
+  #onChangePricePoint = (evt) => {
+    //
+    evt.preventDefault();
+    this._state({
+      basePrice: evt.target.value,
+    })
   }
 
   #selectionTypeMovement = (evt) => {
