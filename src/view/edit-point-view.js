@@ -129,7 +129,6 @@ function createEditEventTemplate(point,destination,offers,typesOffer,namesDestin
   </form>
 </li>
   `);
-
 }
 
 //export default class EditPointView extends AbstractView {
@@ -148,15 +147,26 @@ export default class EditPointView extends AbstractStatefulView {
   #handleEditFormButtonSave;
   #handleEditFormButtonArrow;
 
-
   constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow}) {
     super();
-    //this.#point = point;
-
-    this._setState(EditPointView.parsePointToState(point));
 
     this.#destination = destination;
     this.#offers = offers;
+/*
+    this.#point = {
+      point: structuredClone({...this._state, ...update}),
+      offersByPoint: this._setState(this.#offers),
+      destinationByPoint: this._setState(this.#destination),
+    };
+
+    //console.log('приходящая point',point);
+    //console.log('приходящие offers',offers);
+    //console.log('приходящее destination',destination);
+
+    console.log('составная point',this.#point);
+*/
+
+    this._setState(EditPointView.parsePointToState(point));
 
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
@@ -265,14 +275,17 @@ export default class EditPointView extends AbstractStatefulView {
     evt.preventDefault();
     this._setState({
       type : evt.target.value,
-      //offers : this.#changePointByType(evt.target.value)
     });
-    this._restoreHandlers;
+    //this.updateElement(this._state);
+    //console.log('_state.offers',this._state.offers);
+    //console.log('this.#offers',this.#offers);
+    this.#offers = this.#changePointByType(evt.target.value)
     this.updateElement(this._state);
-    console.log('_state.offers',this._state.offers);
-    console.log('#changePointByType',this.#changePointByType(evt.target.value));
-
-    console.log(this._state);
+    //console.log('this.#offers',this.#offers);
+    //console.log('#changePointByType',this.#changePointByType(evt.target.value));
+    //console.log(this._state);
+    //console.log('this.element',this.element);
+    this._restoreHandlers;
   }
 
   #selectionDestination = (evt) => {
@@ -280,10 +293,13 @@ export default class EditPointView extends AbstractStatefulView {
       return;
     }
     evt.preventDefault();
+    const newIdDestination = `dest-${evt.target.value}`;
     this._setState({
-      destination : `dest-${evt.target.value}`,
+      destination : newIdDestination,
     });
-    this.#changePointByDestination;
+    console.log('this.#destination до',this.#destination);
+    this.#destination = this.#changePointByDestination(newIdDestination);
+    console.log('this.#destination после',this.#destination);
     this.updateElement(this._state);
   }
 
@@ -294,7 +310,8 @@ export default class EditPointView extends AbstractStatefulView {
     return this.#allOffers.find((item) => item.type === type);
   };
 
-  #changePointByDestination = () => {
+  #changePointByDestination = (idDest) => {
+    return this.#allDestinations.find((item) => item.id === idDest);
     //
   };
 
