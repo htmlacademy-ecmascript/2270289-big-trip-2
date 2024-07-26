@@ -1,11 +1,9 @@
-//import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeDayMonthYearSlash} from '../utils/utils.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-
-import {mockDefaultPoint} from '../mock/points.js';
-
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
+import {mockDefaultPoint} from '../mock/points.js';
 
 function getOffersByType (offersAll,offersIdPoint) {
   return offersAll.map((offer) => {
@@ -25,16 +23,13 @@ function getOffersByType (offersAll,offersIdPoint) {
 
 function getPhotosByDestination (destination) {
   if (destination.pictures) {
-    return `
-      <div class="event__photos-container">
-        <div class="event__photos-tape">
-          ${destination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('')}
-        </div>
-      </div>
-  `;
-  } else {
-    return '';
+    return `<div class="event__photos-container">
+              <div class="event__photos-tape">
+                ${destination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('')}
+              </div>
+            </div>`;
   }
+  return '';
 }
 
 function createPointTypeItem(types) {
@@ -50,11 +45,9 @@ function createPointDestinationNameItem(names) {
   return names.map((itemName) => `<option value="${itemName}"></option>`).join('');
 }
 
-//namesDestination
 function createEditEventTemplate(point,destination,offers,typesOffer,namesDestination) {
   const offersAll = [...offers.offers];
   const offersIdPoint = [...point.offers];
-  //console.log('namesDestination',namesDestination);
   return (`
 <li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -152,19 +145,6 @@ export default class EditPointView extends AbstractStatefulView {
 
     this.#destination = destination;
     this.#offers = offers;
-/*
-    this.#point = {
-      point: structuredClone({...this._state, ...update}),
-      offersByPoint: this._setState(this.#offers),
-      destinationByPoint: this._setState(this.#destination),
-    };
-
-    //console.log('приходящая point',point);
-    //console.log('приходящие offers',offers);
-    //console.log('приходящее destination',destination);
-
-    console.log('составная point',this.#point);
-*/
 
     this._setState(EditPointView.parsePointToState(point));
 
@@ -204,21 +184,6 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
-/*
-  #dateFromToggleHandler = (evt) => {
-    evt.preventDefault();
-    this.updateElement({
-      dateFrom: !this._state.dateFrom,
-    });
-  };
-
-  #dateToToggleHandler = (evt) => {
-    evt.preventDefault();
-    this.updateElement({
-      dateTo: !this._state.dateTo,
-    });
-  };
-*/
 
   #setDatepicker = () => {
     if ((this._state.dateFrom) && (this._state.dateTo)) {
@@ -263,7 +228,7 @@ export default class EditPointView extends AbstractStatefulView {
   #onChangePricePoint = (evt) => {
     //
     evt.preventDefault();
-    this._state({
+    this._setState({
       basePrice: evt.target.value,
     })
   }
@@ -276,15 +241,8 @@ export default class EditPointView extends AbstractStatefulView {
     this._setState({
       type : evt.target.value,
     });
-    //this.updateElement(this._state);
-    //console.log('_state.offers',this._state.offers);
-    //console.log('this.#offers',this.#offers);
-    this.#offers = this.#changePointByType(evt.target.value)
+     this.#offers = this.#changePointByType(evt.target.value)
     this.updateElement(this._state);
-    //console.log('this.#offers',this.#offers);
-    //console.log('#changePointByType',this.#changePointByType(evt.target.value));
-    //console.log(this._state);
-    //console.log('this.element',this.element);
     this._restoreHandlers;
   }
 
@@ -304,15 +262,11 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   #changePointByType = (type) => {
-    //
-    //const offerListByTypePoint =
-    //const currentOfferList = offerListByTypePoint.offers.filter((offer) => this.#point.offers.find((item) => offer.id === item));
     return this.#allOffers.find((item) => item.type === type);
   };
 
   #changePointByDestination = (idDest) => {
     return this.#allDestinations.find((item) => item.id === idDest);
-    //
   };
 
   reset(point) {
