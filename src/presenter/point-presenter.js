@@ -22,6 +22,7 @@ export default class PointPresenter {
     this.#point = point;
     this.#destinations =destinations;
     this.#offers = offers;
+
 */
   constructor ({placeRenderList,onModeChange,onDataChange}) {
     this.#placeRenderList = placeRenderList;
