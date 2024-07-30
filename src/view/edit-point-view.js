@@ -5,6 +5,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 import {mockDefaultPoint} from '../mock/points.js';
 
+const DATE_FORMAT = 'd/m/y H:i';
+
 function getOffersByType (offersAll,offersIdPoint) {
   return offersAll.map((offer) => {
     const checked = (offersIdPoint.find((itemId) => itemId === offer.id)) ? 'checked' : '';
@@ -190,19 +192,25 @@ export default class EditPointView extends AbstractStatefulView {
       // flatpickr есть смысл инициализировать только в случае,
       // если поле выбора даты доступно для заполнения
       this.#datepickerFrom = flatpickr(
-        this.element.querySelector('#event-start-time-1'),
+        this.element.querySelector('[name="event-start-time"]'),
         {
-          dateFormat: 'j/m/y H:S',
+          dateFormat: DATE_FORMAT,
           defaultDate: this._state.dateFrom,
+          enableTime: true,
+          allowInput:true,
+          time_24hr: true,
           onChange: this.#dateFromChangeHandler, // На событие flatpickr передаём наш колбэк
         },
       );
       this.#datepickerTo = flatpickr(
-        this.element.querySelector('#event-end-time-1'),
+        this.element.querySelector('[name="event-end-time"]'),
         {
-          dateFormat: 'j/m/y H:S',
+          dateFormat: DATE_FORMAT,
           defaultDate: this._state.dateTo,
           minDate: this._state.dateFrom,
+          enableTime: true,
+          allowInput:true,
+          time_24hr: true,
           onChange: this.#dateToChangeHandler, // На событие flatpickr передаём наш колбэк
         },
       );

@@ -4,8 +4,8 @@ const mockPoints = [
   {
     id: 'point0',
     basePrice: 1000,
-    dateFrom: '2019-07-07T22:55:56.845Z',
-    dateTo: '2019-07-08T02:22:13.375Z',
+    dateFrom: '2019-07-07T22:55:56.000Z',
+    dateTo: '2019-07-08T02:22:13.000Z',
     destination: 'dest-Moscow',
     isFavorite: false,
     offers: [
@@ -17,8 +17,8 @@ const mockPoints = [
   {
     id: 'point1',
     basePrice: 1100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T02:22:13.375Z',
+    dateFrom: '2019-07-10T22:55:56.000Z',
+    dateTo: '2019-07-11T02:22:13.000Z',
     destination: 'dest-Amsterdam',
     isFavorite: false,
     offers: [
@@ -32,8 +32,8 @@ const mockPoints = [
   {
     id: 'point2',
     basePrice: 1111,
-    dateFrom: '2020-07-08T22:55:56.845Z',
-    dateTo: '2020-07-09T11:22:13.375Z',
+    dateFrom: '2020-07-08T22:55:56.000Z',
+    dateTo: '2020-07-09T11:22:13.000Z',
     destination: 'dest-Chamonix',
     isFavorite: false,
     offers: [
@@ -46,8 +46,8 @@ const mockPoints = [
   {
     id: 'point3',
     basePrice: 2222,
-    dateFrom: '2020-07-10T22:55:56.845Z',
-    dateTo: '2020-07-13T11:22:13.375Z',
+    dateFrom: '2020-07-10T22:55:56.000Z',
+    dateTo: '2020-07-13T11:22:13.000Z',
     destination: 'dest-Geneva',
     isFavorite: false,
     offers: [
@@ -59,8 +59,8 @@ const mockPoints = [
   {
     id: 'point4',
     basePrice: 3333,
-    dateFrom: '2020-07-13T22:55:56.845Z',
-    dateTo: '2020-07-14T11:22:13.375Z',
+    dateFrom: '2020-07-13T22:55:56.000Z',
+    dateTo: '2020-07-14T11:22:13.000Z',
     destination: 'dest-Omsk',
     isFavorite: true,
     offers: [
@@ -71,8 +71,8 @@ const mockPoints = [
   {
     id: 'point5',
     basePrice: 4245,
-    dateFrom: '2020-07-12T22:55:56.845Z',
-    dateTo: '2020-07-15T11:22:13.375Z',
+    dateFrom: '2020-07-12T22:55:56.000Z',
+    dateTo: '2020-07-15T11:22:13.000Z',
     destination: 'dest-Washington',
     isFavorite: false,
     offers: [
@@ -85,8 +85,8 @@ const mockPoints = [
   {
     id: 'point6',
     basePrice: 6452,
-    dateFrom: '2020-07-19T22:55:56.845Z',
-    dateTo: '2020-07-20T11:22:13.375Z',
+    dateFrom: '2020-07-19T22:55:56.000Z',
+    dateTo: '2020-07-20T11:22:13.000Z',
     destination: 'dest-Washington',
     isFavorite: false,
     offers: [
@@ -99,8 +99,10 @@ const mockPoints = [
   {
     id: 'point7',
     basePrice: 4245,
-    dateFrom: '2020-07-22T22:55:56.845Z',
-    dateTo: '2020-07-23T11:22:13.375Z',
+//    dateFrom: '2020-07-22T22:55:56.845Z',
+//    dateTo: '2020-07-23T11:22:13.375Z',
+    dateFrom: '2020-07-22T22:55:56.000Z',
+    dateTo: '2020-07-23T11:22:13.000Z',
     destination: 'dest-Washington',
     isFavorite: false,
     offers: [
