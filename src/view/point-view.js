@@ -13,7 +13,7 @@ function getOfferForPoint({title,price}) {
 
 function createEventsPointTemplate(point,destinationName,currentOffers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
-
+  console.log(dateTo);
   const favorite = isFavorite ?
     'event__favorite-btn--active' :
     '';
@@ -21,16 +21,16 @@ function createEventsPointTemplate(point,destinationName,currentOffers) {
   return (`
   <li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="${humanizeDateAtribute(dateFrom)}">${humanizeDate(dateFrom)}</time>
+      <time class="event__date" datetime="${dateFrom}">${humanizeDate(dateFrom)}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">${destinationName}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${humanizeDateHourMinute(dateFrom)}">${humanizeMonthDayHourMinute(dateFrom)}</time>
+          <time class="event__start-time" datetime="${dateFrom}">${humanizeDateHourMinute(dateFrom)}</time>
           &mdash;
-          <time class="event__end-time" datetime="${humanizeDateHourMinute(dateTo)}">${humanizeMonthDayHourMinute(dateTo)}</time>
+          <time class="event__end-time" datetime="${dateTo}">${humanizeDateHourMinute(dateTo)}</time>
         </p>
         <p class="event__duration">${durationEventPoint(dateFrom,dateTo)}</p>
       </div>
