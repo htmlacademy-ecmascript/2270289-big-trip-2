@@ -1,3 +1,5 @@
+import Observable from '../framework/observable.js';
+
 import {getMockPoint,getRandomPoint,getRandomUniquePoint} from '../mock/points.js';
 import {getMockOffers} from '../mock/offers.js';
 import {getMockDestinations} from '../mock/destinations.js';
@@ -6,7 +8,7 @@ import {pathPointMap} from '../consts.js';
 
 const POINT_COUNT = 7;
 
-export default class RouteModel {
+export default class RouteModel extends Observable {
   #randomPoints = Array.from({length: getRandomInteger(POINT_COUNT)}, getRandomPoint);
   #randomUniquePoints = getRandomUniquePoint(POINT_COUNT);
   #points = getMockPoint();

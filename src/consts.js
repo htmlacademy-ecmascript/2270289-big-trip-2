@@ -14,6 +14,18 @@ const SortType = {
   PRICE: 'price',
   OFFERS: 'offers'};
 
+  const UserAction = {
+    UPDATE_POINT: 'UPDATE_POINT',
+    ADD_POINT: 'ADD_POINT',
+    DELETE_POINT: 'DELETE_POINT',
+  };
+
+  const UpdateType = {
+    PATCH: 'PATCH',
+    MINOR: 'MINOR',
+    MAJOR: 'MAJOR',
+  };
+
 const sortMap = ['day', 'event', 'time', 'price', 'offers'];
 const filterMap = ['everything','future','present','past'];
 const pathPointMap = ['Amsterdam', 'Geneva', 'Chamonix'];
@@ -24,4 +36,4 @@ const Mode = {
 };
 
 
-export {FilterType,filterMap,SortType,sortMap,pathPointMap,Mode};
+export {FilterType,filterMap,SortType,sortMap,pathPointMap,Mode,UserAction,UpdateType};

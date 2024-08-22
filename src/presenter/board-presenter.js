@@ -63,6 +63,10 @@ export default class BoardPresenter {
 
   }
 
+  get points () {
+    return this.#routeModel.points;
+  }
+
   #handleModeChange = () => {
     this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
   };
