@@ -14,7 +14,7 @@ const boardPresenter = new BoardPresenter({
   boardContainer: siteBody,
   routeModel,
   filterModel,
-  onAddPointDestroy: handleButtonAddPointClose
+  onAddPointDestroy: handleButtonAddPointClose,
 
 });
 

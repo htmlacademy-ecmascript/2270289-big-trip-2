@@ -141,8 +141,11 @@ export default class EditPointView extends AbstractStatefulView {
 
   #handleEditFormButtonSave;
   #handleEditFormButtonArrow;
+  #handleEditFormButtonCancel;
+  #buttonText;
+  #isAddPoint = false;
 
-  constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow}) {
+  constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
     super();
 
     this.#destination = destination;
@@ -155,8 +158,12 @@ export default class EditPointView extends AbstractStatefulView {
 
     this.#handleEditFormButtonSave = onEditFormButtonSave;
     this.#handleEditFormButtonArrow = onEditFormButtonArrow;
+    this.#handleEditFormButtonCancel = onEditFormButtonCancel;
 
     this._restoreHandlers();
+
+    this.#buttonText = buttonText;
+    this.#isAddPoint = isAddPoint;
   }
 
   // Перегружаем метод родителя removeElement,
