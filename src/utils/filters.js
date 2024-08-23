@@ -27,11 +27,7 @@ const FiltersMap = {
 };
 
 function generateFilter() {
-  return Object.entries(Filters).map(
-    ([filterType]) => ({
-      type: filterType,
-    }),
-  );
+  return Object.entries(Filters).map(([filterType]) => ({type: filterType}));
 }
 
 export {FiltersMap, generateFilter};
