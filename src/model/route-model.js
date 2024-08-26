@@ -6,7 +6,7 @@ import {getMockDestinations} from '../mock/destinations.js';
 import {getRandomInteger} from '../utils/utils.js';
 import {pathPointMap} from '../consts.js';
 
-const POINT_COUNT = 7;
+const POINT_COUNT = 3;
 
 export default class RouteModel extends Observable {
   #randomPoints = Array.from({length: getRandomInteger(POINT_COUNT)}, getRandomPoint);

@@ -67,7 +67,7 @@ export default class BoardPresenter {
 
   get points () {
     this.#filterType = this.#filterModel.filter;
-    const points = this.#routeModel.points;
+    const points = this.#routeModel.randomUniquePoints;
     const filteredPoints = FiltersMap[this.#filterType](points);
 
     switch (this.#currentSortType) {

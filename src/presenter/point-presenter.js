@@ -71,7 +71,10 @@ export default class PointPresenter {
       onEditFormButtonArrow: () => {
         this.#replaceEditPointToPoint();
         document.removeEventListener('keydown',this.#escKeyDownHandler);
-      }
+      },
+      onEditFormButtonCancel: this.#handleFormButtonCancel,
+      buttonText: 'Cancel',
+      isAddPoint: false,
     });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -93,6 +96,11 @@ export default class PointPresenter {
  /**
  * Функция обработки нажатия на клавишу Escape, на клавиатуре.
  */
+ #handleFormButtonCancel = (evt) => {
+  evt.preventDefault();
+  //this.destroy();
+};
+
   #escKeyDownHandler = (evt) => {
     if ((evt.key === 'Escape') || (evt.key === 'Esc')) {
       evt.preventDefault();

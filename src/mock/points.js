@@ -113,7 +113,7 @@ const mockPoints = [
   },
 ];
 
-const mockDefaultPoint = [
+const mockDefaultPoint =
   {
     id: '0',
     basePrice: 0,
@@ -122,9 +122,8 @@ const mockDefaultPoint = [
     destination: '',
     isFavorite: false,
     offers: [],
-    type: ''
-  },
-]
+    type: 'flight'
+  }
 
 const getMockPoint = () => mockPoints;
 
