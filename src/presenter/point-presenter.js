@@ -56,11 +56,10 @@ export default class PointPresenter {
       }
     });
 
-    const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
+    //const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
     const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
 
     this.#editPointComponent = new EditPointView({point:this.#point,
-      destination:editDestinationPoint,
       offers:editOffersByType,
       allDestinations: this.#destinations,
       allOffers: this.#offers,
@@ -73,7 +72,7 @@ export default class PointPresenter {
         document.removeEventListener('keydown',this.#escKeyDownHandler);
       },
       onEditFormButtonCancel: this.#handleFormButtonCancel,
-      buttonText: 'Cancel',
+      buttonText: 'Delete',
       isAddPoint: false,
     });
 

@@ -50,10 +50,9 @@ function createPointDestinationNameItem(names) {
 
 function createEditEventTemplate(point,allDestinations,allOffers,offersByType,buttonText,isAddPoint) {
 
-  const offersAll = [...allOffers];
   const offersIdPoint = (isAddPoint) ? [] : [...point.offers];
   const destination = allDestinations.find((item) => item.id === point.destination);
-  const destinationName = (isAddPoint) ? '' : destination.name;
+  const destinationName = (destination) ? destination.name : '';
 
   const typesOffer = allOffers.map((offer) => offer.type);
   const namesDestination = allDestinations.map((destination) => destination.name);
@@ -109,7 +108,7 @@ function createEditEventTemplate(point,allDestinations,allOffers,offersByType,bu
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">Delete</button>
+      <button class="event__reset-btn" type="reset">${buttonText}</button>
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
       </button>
@@ -118,7 +117,6 @@ function createEditEventTemplate(point,allDestinations,allOffers,offersByType,bu
     <section class="event__details">
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
         <div class="event__available-offers">
           ${createTemplateOffersForPoint(offersByType,offersIdPoint)}
         </div>
@@ -132,8 +130,7 @@ function createEditEventTemplate(point,allDestinations,allOffers,offersByType,bu
 
 function createTemplateDestination(destination) {
   return (!destination) ?  ``
-  :`
-    <section class="event__section  event__section--destination">
+  :`<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">
         ${destination.description}
@@ -148,7 +145,6 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  #destination;
   #offers;
 
   #allDestinations;
@@ -160,10 +156,9 @@ export default class EditPointView extends AbstractStatefulView {
   #buttonText;
   #isAddPoint = false;
 
-  constructor ({point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
+  constructor ({point,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
     super();
 
-    this.#destination = destination;
     this.#offers = offers;
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
