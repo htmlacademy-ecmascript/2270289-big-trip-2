@@ -171,11 +171,6 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    //const typesOffer = this.#allOffers.map((offer) => offer.type);
-    //const namesDestination = this.#allDestinations.map((destination) => destination.name);
-
-    //return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,typesOffer,namesDestination,this.#buttonText,this.#isAddPoint);
-    //return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,this.#buttonText,this.#isAddPoint);
     return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#buttonText,this.#isAddPoint);
   }
 

@@ -29,10 +29,6 @@ export default class AddPointPresenter {
       return;
     }
 
-    //console.log('this.#dataDestinations',this.#dataDestinations);
-    //console.log('this.#dataOffers',this.#dataOffers);
-    //const editOffersByType = this.#dataOffers.find((item) => item.type === mockDefaultPoint.type);
-
     this.#editPointComponent = new EditPointView({
       point: mockDefaultPoint,
       allDestinations: this.#dataDestinations,
