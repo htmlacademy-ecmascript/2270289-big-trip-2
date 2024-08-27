@@ -7,14 +7,13 @@ import {mockDefaultPoint} from '../mock/points.js';
 
 const DATE_FORMAT = 'd/m/y H:i';
 
-//getOffersByType
 function createTemplateOffersForPoint (offersByType,offersIdPoint) {
   return offersByType.map((offer) => {
     const checked = (offersIdPoint.find((itemId) => itemId === offer.id)) ? 'checked' : '';
     return `
       <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked}>
-              <label class="event__offer-label" for="event-offer-luggage-1">
+          <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" ${checked}>
+              <label class="event__offer-label" for="event-offer-${offer.id}">
                     <span class="event__offer-title">${offer.title}</span>
                       &plus;&euro;&nbsp;
                     <span class="event__offer-price">${offer.price}</span>
@@ -48,7 +47,7 @@ function createPointDestinationNameItem(names) {
   return names.map((itemName) => `<option value="${itemName}"></option>`).join('');
 }
 
-function createEditEventTemplate(point,allDestinations,allOffers,offersByType,buttonText,isAddPoint) {
+function createEditEventTemplate(point,allDestinations,allOffers,buttonText,isAddPoint) {
 
   const offersIdPoint = (isAddPoint) ? [] : [...point.offers];
   const destination = allDestinations.find((item) => item.id === point.destination);
@@ -57,7 +56,7 @@ function createEditEventTemplate(point,allDestinations,allOffers,offersByType,bu
   const typesOffer = allOffers.map((offer) => offer.type);
   const namesDestination = allDestinations.map((destination) => destination.name);
 
-  //const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
+  const offersByType = allOffers.find((item) => item.type === point.type).offers;
 
   return (`
 <li class="trip-events__item">
@@ -145,8 +144,6 @@ export default class EditPointView extends AbstractStatefulView {
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  #offers;
-
   #allDestinations;
   #allOffers;
 
@@ -156,10 +153,9 @@ export default class EditPointView extends AbstractStatefulView {
   #buttonText;
   #isAddPoint = false;
 
-  constructor ({point,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
+  constructor ({point,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
     super();
 
-    this.#offers = offers;
     this.#allDestinations = allDestinations;
     this.#allOffers = allOffers;
     this.#buttonText = buttonText;
@@ -178,8 +174,9 @@ export default class EditPointView extends AbstractStatefulView {
     //const typesOffer = this.#allOffers.map((offer) => offer.type);
     //const namesDestination = this.#allDestinations.map((destination) => destination.name);
 
-//    return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,typesOffer,namesDestination,this.#buttonText,this.#isAddPoint);
-    return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,this.#buttonText,this.#isAddPoint);
+    //return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,typesOffer,namesDestination,this.#buttonText,this.#isAddPoint);
+    //return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,this.#buttonText,this.#isAddPoint);
+    return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#buttonText,this.#isAddPoint);
   }
 
   // Перегружаем метод родителя removeElement,
@@ -251,13 +248,11 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#selectionDestination);
     // Обработчик на изменение цены путешествия
     this.element.querySelector('.event__input--price').addEventListener('change', this.#onChangePricePoint);
-
     // инициализация flatpickr, на выбор дат
     this.#setDatepicker();
   }
 
   #onChangePricePoint = (evt) => {
-    //
     evt.preventDefault();
     this._setState({
       basePrice: evt.target.value,
@@ -269,10 +264,11 @@ export default class EditPointView extends AbstractStatefulView {
       return;
     }
     evt.preventDefault();
+
     this._setState({
       type : evt.target.value,
+      offers : this.#changePointByType(evt.target.value).offers,
     });
-     this.#offers = this.#changePointByType(evt.target.value)
     this.updateElement(this._state);
     this._restoreHandlers;
   }
@@ -283,31 +279,18 @@ export default class EditPointView extends AbstractStatefulView {
     }
     evt.preventDefault();
     const newIdDestination = `dest-${evt.target.value}`;
-    //const destinationSection = this.element.querySelector('.event__section--destination');
-    //console.log('this.element',this.element);
-    //console.log('destinationSection',destinationSection);
-    console.log('this._state До',this._state);
-    /*
-    this._setState({
-      destination : newIdDestination,
-    });
-    */
-    //this.#destination = this.#changePointByDestination(newIdDestination);
-    //console.log('this.#destination до',this.#destination);
-    //console.log('this.#destination после',this.#destination);
-    //this.updateElement(EditPointView.parseStateToPoint(this._state));
-   this.updateElement({destination: newIdDestination ? newIdDestination : ''});
-
-    console.log('this._state После',this._state);
+    this.updateElement({destination: newIdDestination ? newIdDestination : ''});
   }
 
   #changePointByType = (type) => {
     return this.#allOffers.find((item) => item.type === type);
   };
 
+/*
   #changePointByDestination = (idDest) => {
     return this.#allDestinations.find((item) => item.id === idDest);
   };
+*/
 
   reset(point) {
     this.updateElement(EditPointView.parsePointToState(point));
@@ -332,7 +315,5 @@ export default class EditPointView extends AbstractStatefulView {
     const point = {...state};
     return point;
   }
-
-
 
 }

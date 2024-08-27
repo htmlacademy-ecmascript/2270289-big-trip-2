@@ -57,10 +57,10 @@ export default class PointPresenter {
     });
 
     //const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
-    const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
+    //const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
 
     this.#editPointComponent = new EditPointView({point:this.#point,
-      offers:editOffersByType,
+      //offers:editOffersByType,
       allDestinations: this.#destinations,
       allOffers: this.#offers,
       onEditFormButtonSave: () => {

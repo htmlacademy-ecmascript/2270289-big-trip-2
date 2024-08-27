@@ -29,15 +29,12 @@ export default class AddPointPresenter {
       return;
     }
 
-    console.log('this.#dataDestinations',this.#dataDestinations);
-    console.log('this.#dataOffers',this.#dataOffers);
-
-    const editOffersByType = this.#dataOffers.find((item) => item.type === mockDefaultPoint.type);
+    //console.log('this.#dataDestinations',this.#dataDestinations);
+    //console.log('this.#dataOffers',this.#dataOffers);
+    //const editOffersByType = this.#dataOffers.find((item) => item.type === mockDefaultPoint.type);
 
     this.#editPointComponent = new EditPointView({
       point: mockDefaultPoint,
-      destination: '',
-      offers: editOffersByType,
       allDestinations: this.#dataDestinations,
       allOffers: this.#dataOffers,
       onEditFormSubmit: this.#handleFormSubmit,
@@ -46,8 +43,6 @@ export default class AddPointPresenter {
       buttonText: 'Cancel',
       isAddPoint: true,
     });
-
-    //{point,destination,offers,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText}
 
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
