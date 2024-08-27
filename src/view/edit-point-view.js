@@ -48,11 +48,17 @@ function createPointDestinationNameItem(names) {
   return names.map((itemName) => `<option value="${itemName}"></option>`).join('');
 }
 
-function createEditEventTemplate(point,destination,offersByType,allOffers,typesOffer,namesDestination,buttonText,isAddPoint) {
+function createEditEventTemplate(point,allDestinations,allOffers,offersByType,buttonText,isAddPoint) {
 
   const offersAll = [...allOffers];
   const offersIdPoint = (isAddPoint) ? [] : [...point.offers];
+  const destination = allDestinations.find((item) => item.id === point.destination);
   const destinationName = (isAddPoint) ? '' : destination.name;
+
+  const typesOffer = allOffers.map((offer) => offer.type);
+  const namesDestination = allDestinations.map((destination) => destination.name);
+
+  //const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
 
   return (`
 <li class="trip-events__item">
@@ -117,28 +123,26 @@ function createEditEventTemplate(point,destination,offersByType,allOffers,typesO
           ${createTemplateOffersForPoint(offersByType,offersIdPoint)}
         </div>
       </section>
-      ${createTemplateDestination(isAddPoint,destination)}
+      ${createTemplateDestination(destination)}
     </section>
   </form>
 </li>
   `);
 }
 
-function createTemplateDestination(isAddPoint,destination) {
-  const destinationOnDisplay =  (isAddPoint) ? "style='display: none;'" : "style='display: block;'";
-  const description = (isAddPoint) ? '' : destination.description;
-  return `
-    <section class="event__section  event__section--destination" ${destinationOnDisplay}">
+function createTemplateDestination(destination) {
+  return (!destination) ?  ``
+  :`
+    <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">
-        ${description}
+        ${destination.description}
       </p>
       ${getPhotosByDestination(destination)}
     </section>
-  `
+  `;
 }
 
-//export default class EditPointView extends AbstractView {
 export default class EditPointView extends AbstractStatefulView {
 
   #datepickerFrom = null;
@@ -176,22 +180,11 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    const typesOffer = this.#allOffers.map((offer) => offer.type);
-    const namesDestination = this.#allDestinations.map((destination) => destination.name);
-    /*
-    console.log('this._state',this._state);
-    console.log('this.#destination',this.#destination);
-    console.log('this.#offers',this.#offers);
-    console.log('this.#offers.offers',this.#offers.offers);
-    console.log('this.#allOffers',this.#allOffers);
-    console.log('typesOffer',typesOffer);
-    console.log('namesDestination',namesDestination);
-    console.log('this.#buttonText',this.#buttonText);
-    console.log('this.#isAddPoint',this.#isAddPoint);
-    */
+    //const typesOffer = this.#allOffers.map((offer) => offer.type);
+    //const namesDestination = this.#allDestinations.map((destination) => destination.name);
 
-
-    return createEditEventTemplate(this._state,this.#destination,this.#offers.offers,this.#allOffers,typesOffer,namesDestination,this.#buttonText,this.#isAddPoint);
+//    return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,typesOffer,namesDestination,this.#buttonText,this.#isAddPoint);
+    return createEditEventTemplate(this._state,this.#allDestinations,this.#allOffers,this.#offers.offers,this.#buttonText,this.#isAddPoint);
   }
 
   // Перегружаем метод родителя removeElement,
@@ -295,18 +288,21 @@ export default class EditPointView extends AbstractStatefulView {
     }
     evt.preventDefault();
     const newIdDestination = `dest-${evt.target.value}`;
-    const destinationSection = this.element.querySelector('.event__section--destination');
-    console.log('this.element',this.element);
-    console.log('destinationSection',destinationSection);
+    //const destinationSection = this.element.querySelector('.event__section--destination');
+    //console.log('this.element',this.element);
+    //console.log('destinationSection',destinationSection);
     console.log('this._state До',this._state);
-    destinationSection.style.display = 'block';
+    /*
     this._setState({
       destination : newIdDestination,
     });
-    console.log('this.#destination до',this.#destination);
-    this.#destination = this.#changePointByDestination(newIdDestination);
-    console.log('this.#destination после',this.#destination);
-    this.updateElement(EditPointView.parseStateToPoint(this._state));
+    */
+    //this.#destination = this.#changePointByDestination(newIdDestination);
+    //console.log('this.#destination до',this.#destination);
+    //console.log('this.#destination после',this.#destination);
+    //this.updateElement(EditPointView.parseStateToPoint(this._state));
+   this.updateElement({destination: newIdDestination ? newIdDestination : ''});
+
     console.log('this._state После',this._state);
   }
 
