@@ -79,17 +79,6 @@ export default class BoardPresenter {
     return filteredPoints.sort(sortPointDay);
   }
 
-/*
-  get points () {
-    switch (this.#currentSortType) {
-      case SortType.TIME:
-        return [...this.#routeModel.points].sort(sortPointTime);
-      case SortType.PRICE:
-        return [...this.#routeModel.points].sort(sortPointPrice);
-    }
-    return this.#routeModel.points.sort(sortPointDay);
-  }
-*/
   createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
@@ -137,18 +126,12 @@ export default class BoardPresenter {
   };
 
   init () {
-    //this.#boardPoints = [...this.#routeModel.randomUniquePoints];
     this.#boardOffers = [...this.#routeModel.offers];
     this.#boardDestinations = [...this.#routeModel.destinations];
     this.#boardRouteTravel = [...this.#routeModel.routeTravel];
 
-    // 1. В отличии от сортировки по любому параметру, исходный порядок можно сохранить
-    // только одним способом - сохранив исходный массив:
-    //this.#sourcedBoardPoints = [...this.#boardPoints];
-
     this.#renderBoard();
   }
-
 
   #renderBoard = () => {
     this.#renderTripInfo(this.#boardRouteTravel,'18','20 Mar',1230);
@@ -191,17 +174,12 @@ export default class BoardPresenter {
     const points = this.points.slice(0, pointsLength);
 
     if (pointsLength === 0) {
-      //render(new EmptyPointView(), this.#siteControlTripEvents);
       this.#renderEmptyList();
     } else {
       points.forEach((itemPoint) => {
         const pointPresenter = new PointPresenter({
-          point:itemPoint,
-          destinations: this.#boardDestinations,
-          offers: this.#boardOffers,
           placeRenderList: this.#eventListComponent,
           onModeChange: this.#handleModeChange,
-          //onDataChange: this.#handleUpdatePoint
           onDataChange: this.#handleViewAction
         });
         this.#pointPresenterMap.set(itemPoint.id,pointPresenter);
@@ -213,37 +191,6 @@ export default class BoardPresenter {
   #handleModeChange = () => {
     this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
   };
-
-/*
-  #handleUpdatePoint = (updatedPoint) => {
-    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
-    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
-    this.#pointPresenterMap.get(updatedPoint.id).init(updatedPoint, this.#boardDestinations, this.#boardOffers);
-  };
-*/
-/*
-  #sortPoints(sortType) {
-    // 2. Этот исходный массив задач необходим,
-    // потому что для сортировки мы будем мутировать
-    // массив в свойстве _boardPoints
-    switch (sortType) {
-      case SortType.DAY:
-        this.#boardPoints.sort(sortPointDay);
-        break;
-      case SortType.TIME:
-        this.#boardPoints.sort(sortPointTime);
-        break;
-      case SortType.PRICE:
-        this.#boardPoints.sort(sortPointPrice);
-        break;
-      default:
-        // 3. А когда пользователь захочет "вернуть всё, как было",
-        // мы просто запишем в _boardTasks исходный массив
-        this.#boardPoints = [...this.#sourcedBoardPoints];
-    }
-    this.#currentSortType = sortType;
-  }
-*/
 
 #renderEmptyList (){
   this.#emptyListComponent = new EmptyPointView({filterType: this.#filterType});

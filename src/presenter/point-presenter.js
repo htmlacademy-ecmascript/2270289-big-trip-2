@@ -17,13 +17,7 @@ export default class PointPresenter {
   #mode = Mode.DEFAULT;
   #handleModeChange = null;
   #handleDataChange = null;
-/*
-  constructor ({point,destinations,offers,placeRenderList,onModeChange,onDataChange}) {
-    this.#point = point;
-    this.#destinations =destinations;
-    this.#offers = offers;
 
-*/
   constructor ({placeRenderList,onModeChange,onDataChange}) {
     this.#placeRenderList = placeRenderList;
     this.#handleModeChange = onModeChange;
