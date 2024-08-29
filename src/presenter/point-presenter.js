@@ -79,10 +79,7 @@ export default class PointPresenter {
       isAddPoint: false,
     });
 
-    const isEditPoint = this.#checkPointsOnEditStatus(this.#placeRenderList.element);
-    console.log('isEditPoint',isEditPoint);
-
-    if ((prevPointComponent === null || prevEditPointComponent === null) && isEditPoint === null) {
+    if (prevPointComponent === null || prevEditPointComponent === null) {
       render(this.#pointComponent, this.#placeRenderList.element);
       return;
     }
@@ -97,10 +94,6 @@ export default class PointPresenter {
     remove(prevPointComponent);
     remove(prevEditPointComponent);
   };
-
-  #checkPointsOnEditStatus = (pointListContainer) => {
-    return pointListContainer.querySelector('.event--edit')
-  }
 
  /**
  * Функция обработки нажатия на клавишу Escape, на клавиатуре.

@@ -203,9 +203,6 @@ export default class EditPointView extends AbstractStatefulView {
 
 
   #setDatepicker = () => {
-    if ((this._state.dateFrom) && (this._state.dateTo)) {
-      // flatpickr есть смысл инициализировать только в случае,
-      // если поле выбора даты доступно для заполнения
       this.#datepickerFrom = flatpickr(
         this.element.querySelector('[name="event-start-time"]'),
         {
@@ -229,7 +226,6 @@ export default class EditPointView extends AbstractStatefulView {
           onChange: this.#dateToChangeHandler, // На событие flatpickr передаём наш колбэк
         },
       );
-    }
   }
 
   _restoreHandlers() {
