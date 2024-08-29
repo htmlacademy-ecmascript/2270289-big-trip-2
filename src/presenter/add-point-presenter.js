@@ -2,7 +2,8 @@ import {remove, render, RenderPosition} from '../framework/render.js';
 import EditPointView from '../view/edit-point-view.js';
 import {UserAction, UpdateType} from '../consts.js';
 import {nanoid} from 'nanoid';
-import {mockDefaultPoint} from '../mock/points.js'
+import {mockDefaultPoint} from '../mock/points.js';
+
 export default class AddPointPresenter {
   #dataOffers = null;
   #dataDestinations = null;
@@ -23,8 +24,6 @@ export default class AddPointPresenter {
     this.#dataOffers = dataOffers;
     this.#dataDestinations = dataDestinations;
 
-    console.log('this.#editPointComponent',this.#editPointComponent)
-
     if (this.#editPointComponent !== null) {
       return;
     }
@@ -41,7 +40,6 @@ export default class AddPointPresenter {
     });
 
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
-
     document.addEventListener('keydown', this.#handleEscKeyDown);
   }
 
@@ -49,16 +47,13 @@ export default class AddPointPresenter {
     if (this.#editPointComponent === null) {
       return;
     }
-
     this.#handleDestroy();
-
     remove(this.#editPointComponent);
     this.#editPointComponent = null;
-
     document.removeEventListener('keydown', this.#handleEscKeyDown);
   }
 
-  #handleFormSubmit = (point) => {
+    #handleFormSubmit = (point) => {
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,

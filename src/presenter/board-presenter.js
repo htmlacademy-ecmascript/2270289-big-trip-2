@@ -1,18 +1,16 @@
 import {RenderPosition,render,remove} from '../framework/render.js';
-//import {updateItem} from '../utils/common.js';
 
 import {SortType, UpdateType, UserAction, FilterType} from '../consts.js';
 import {sortPointDay,sortPointTime,sortPointPrice} from '../utils/point.js';
 
 import {FiltersMap} from '../utils/filters.js';
 import FilterPresenter from '../presenter/filter-presenter.js';
+import PointPresenter from './point-presenter.js';
 import AddPointPresenter from '../presenter/add-point-presenter.js';
 
 import TripInfoView from '../view/trip-info-view.js';
-//import FilterView from '../view/filters-view.js';
 import SortView from '../view/sort-view.js';
 import EventsView from '../view/events-view.js';
-import PointPresenter from './point-presenter.js';
 import EmptyPointView from '../view/empty-point-view.js';
 
 export default class BoardPresenter {
@@ -20,7 +18,6 @@ export default class BoardPresenter {
   #routeModel = null;
   #filterModel = null;
 
-  //#boardPoints = [];
   #boardOffers = [];
   #boardDestinations = [];
   #boardRouteTravel = [];
@@ -30,19 +27,18 @@ export default class BoardPresenter {
   #siteControlTripEvents = null;
 
   #pointPresenterMap = new Map();
+  #pointPresenter = null;
   #addPointPresenter = null;
   #filterPresenter = null;
-  #pointPresenter = null;
+
 
   #tripInfoComponent = null;
-  #filterComponent = null;
   #sortComponent = null;
   #eventListComponent = new EventsView();
   #emptyListComponent = null;
 
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
-  //#sourcedBoardPoints = [];
 
   constructor ({boardContainer, routeModel, filterModel, onAddPointDestroy}) {
 
@@ -151,15 +147,12 @@ export default class BoardPresenter {
   };
 
   #renderFilter() {
-//    this.#filterComponent = new FilterView();
-//    {filters, currentFilterType, onFilterTypeChange}
-//    render(this.#filterComponent, this.#siteControlFilters);
-    const filterPresenter = new FilterPresenter({
+    this.#filterPresenter = new FilterPresenter({
       filterContainer: this.#siteControlFilters,
       filterModel: this.#filterModel,
       routeModel: this.#routeModel,
     });
-    filterPresenter.init();
+    this.#filterPresenter.init();
   };
 
   #renderSort() {
@@ -177,18 +170,21 @@ export default class BoardPresenter {
       this.#renderEmptyList();
     } else {
       points.forEach((itemPoint) => {
-        const pointPresenter = new PointPresenter({
+        this.#pointPresenter = new PointPresenter({
           placeRenderList: this.#eventListComponent,
           onModeChange: this.#handleModeChange,
           onDataChange: this.#handleViewAction
         });
-        this.#pointPresenterMap.set(itemPoint.id,pointPresenter);
-        pointPresenter.init(itemPoint,this.#boardDestinations,this.#boardOffers);
+        this.#pointPresenterMap.set(itemPoint.id,this.#pointPresenter);
+        this.#pointPresenter.init(itemPoint,this.#boardDestinations,this.#boardOffers);
       });
     };
   };
 
   #handleModeChange = () => {
+    if (this.#addPointPresenter) {
+      this.#addPointPresenter.destroy();
+    };
     this.#pointPresenterMap.forEach((presenter) => presenter.resetView());
   };
 

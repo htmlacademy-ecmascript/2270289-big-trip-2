@@ -12,9 +12,9 @@ export default class PointPresenter {
 
   #pointComponent = null;
   #editPointComponent = null;
-  //#newPointComponent = null;
 
-  #mode = Mode.DEFAULT;
+  #pointsMode = Mode.DEFAULT;
+
   #handleModeChange = null;
   #handleDataChange = null;
 
@@ -23,6 +23,18 @@ export default class PointPresenter {
     this.#handleModeChange = onModeChange;
     this.#handleDataChange = onDataChange;
   }
+
+  /**
+   * @param {string} mode 'DEFAULT','EDITING'
+   */
+  set pointsMode (mode) {
+    this.#pointsMode = mode;
+    return
+  };
+
+  get pointsMode() {
+    return this.#pointsMode;
+  };
 
   init(point,destinations,offers) {
     this.#point = point;
@@ -50,11 +62,8 @@ export default class PointPresenter {
       }
     });
 
-    //const editDestinationPoint = this.#destinations.find((item) => item.id === this.#point.destination);
-    //const editOffersByType = this.#offers.find((item) => item.type === this.#point.type);
-
-    this.#editPointComponent = new EditPointView({point:this.#point,
-      //offers:editOffersByType,
+    this.#editPointComponent = new EditPointView({
+      point:this.#point,
       allDestinations: this.#destinations,
       allOffers: this.#offers,
       onEditFormButtonSave: () => {
@@ -70,28 +79,35 @@ export default class PointPresenter {
       isAddPoint: false,
     });
 
-    if (prevPointComponent === null || prevEditPointComponent === null) {
+    const isEditPoint = this.#checkPointsOnEditStatus(this.#placeRenderList.element);
+    console.log('isEditPoint',isEditPoint);
+
+    if ((prevPointComponent === null || prevEditPointComponent === null) && isEditPoint === null) {
       render(this.#pointComponent, this.#placeRenderList.element);
       return;
     }
 
-    if (this.#mode === Mode.DEFAULT) {
+    if (this.pointsMode === Mode.DEFAULT) {
       replace(this.#pointComponent, prevPointComponent);
     }
 
-    if (this.#mode === Mode.EDITING) {
+    if (this.pointsMode === Mode.EDITING) {
       replace(this.#editPointComponent, prevEditPointComponent);
     }
     remove(prevPointComponent);
     remove(prevEditPointComponent);
   };
 
+  #checkPointsOnEditStatus = (pointListContainer) => {
+    return pointListContainer.querySelector('.event--edit')
+  }
+
  /**
  * Функция обработки нажатия на клавишу Escape, на клавиатуре.
  */
  #handleFormButtonCancel = (evt) => {
   evt.preventDefault();
-  //this.destroy();
+  this.destroy();
 };
 
   #escKeyDownHandler = (evt) => {
@@ -109,7 +125,8 @@ export default class PointPresenter {
   #replacePointToEditPoint(){
     replace(this.#editPointComponent, this.#pointComponent);
     this.#handleModeChange(); // Используется для сброса состояния всех точек, чтоб толька одна точка была в режиме редактирования.
-    this.#mode = Mode.EDITING;
+    console.log(this.pointsMode);
+    this.pointsMode = Mode.EDITING;
   };
 
 /**
@@ -117,7 +134,7 @@ export default class PointPresenter {
  */
   #replaceEditPointToPoint(){
     replace(this.#pointComponent, this.#editPointComponent);
-    this.#mode = Mode.DEFAULT;
+    this.pointsMode = Mode.DEFAULT;
   };
 
 /**
@@ -132,7 +149,7 @@ export default class PointPresenter {
  * Функция сброса всех точек в исходное состояние, если какая-то находится в режиме редактирования.
  */
   resetView() {
-    if (this.#mode !== Mode.DEFAULT) {
+    if (this.pointsMode !== Mode.DEFAULT) {
       this.#editPointComponent.reset(this.#point);
       this.#replaceEditPointToPoint();
     };
