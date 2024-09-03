@@ -66,10 +66,7 @@ export default class PointPresenter {
       point:this.#point,
       allDestinations: this.#destinations,
       allOffers: this.#offers,
-      onEditFormButtonSave: () => {
-        this.#replaceEditPointToPoint();
-        document.removeEventListener('keydown',this.#escKeyDownHandler);
-      },
+      onEditFormButtonSave: this.#handleFormButtonSave,
       onEditFormButtonArrow: () => {
         this.#replaceEditPointToPoint();
         document.removeEventListener('keydown',this.#escKeyDownHandler);
@@ -95,21 +92,25 @@ export default class PointPresenter {
     remove(prevEditPointComponent);
   };
 
- /**
- * Функция обработки нажатия на клавишу Escape, на клавиатуре.
- */
+ #handleFormButtonSave = (update) => {
+  this.#handleDataChange(
+    UserAction.UPDATE_POINT,
+    UpdateType.MINOR,
+    update,
+  );
+};
+
  #handleFormButtonCancel = (point) => {
-  //evt.preventDefault();
-  console.log('Нажали кнопку удалить.');
   this.#handleDataChange(
     UserAction.DELETE_POINT,
     UpdateType.MINOR,
     point,
   );
-  //evt.preventDefault();
-  //this.destroy();
 };
 
+ /**
+ * Функция обработки нажатия на клавишу Escape, на клавиатуре.
+ */
   #escKeyDownHandler = (evt) => {
     if ((evt.key === 'Escape') || (evt.key === 'Esc')) {
       evt.preventDefault();
@@ -125,7 +126,7 @@ export default class PointPresenter {
   #replacePointToEditPoint(){
     replace(this.#editPointComponent, this.#pointComponent);
     this.#handleModeChange(); // Используется для сброса состояния всех точек, чтоб толька одна точка была в режиме редактирования.
-    console.log(this.pointsMode);
+    //console.log(this.pointsMode);
     this.pointsMode = Mode.EDITING;
   };
 
