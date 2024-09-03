@@ -63,7 +63,7 @@ export default class BoardPresenter {
 
   get points () {
     this.#filterType = this.#filterModel.filter;
-    const points = this.#routeModel.randomUniquePoints;
+    const points = this.#routeModel.points;
     const filteredPoints = FiltersMap[this.#filterType](points);
 
     switch (this.#currentSortType) {
@@ -104,11 +104,15 @@ export default class BoardPresenter {
     // - обновить часть списка (например, когда поменялось описание)
     // - обновить список (например, когда задача ушла в архив)
     // - обновить всю доску (например, при переключении фильтра)
+    console.log('пришли в #handleModelEvent');
+    console.log('updateType',updateType);
+    console.log('data',data);
     switch(updateType) {
       case UpdateType.PATCH:
         this.#pointPresenterMap.get(data.id).init(data, this.#boardOffers, this.#boardDestinations);
         break;
       case UpdateType.MINOR:
+        console.log('Зашли в MINOR');
         this.#clearTripBoard({resetSortType: true});
         this.#renderSort();
         this.#renderPointEvents();
@@ -170,16 +174,19 @@ export default class BoardPresenter {
       this.#renderEmptyList();
     } else {
       points.forEach((itemPoint) => {
-        this.#pointPresenter = new PointPresenter({
+        const pointPresenter = new PointPresenter({
           placeRenderList: this.#eventListComponent,
           onModeChange: this.#handleModeChange,
           onDataChange: this.#handleViewAction
         });
-        this.#pointPresenterMap.set(itemPoint.id,this.#pointPresenter);
-        this.#pointPresenter.init(itemPoint,this.#boardDestinations,this.#boardOffers);
+        console.log(' - - - - - - - - - - - - - - - - -');
+        console.log('itemPoint',itemPoint);
+        pointPresenter.init(itemPoint,this.#boardDestinations,this.#boardOffers);
+        this.#pointPresenterMap.set(itemPoint.id,pointPresenter);
       });
     };
   };
+
 
   #handleModeChange = () => {
     if (this.#addPointPresenter) {

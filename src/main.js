@@ -27,5 +27,6 @@ function handleButtonAddPointClick() {
   buttonAddPoint.disabled = true;
 }
 
+routeModel.init();
 boardPresenter.init();
 

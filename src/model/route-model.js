@@ -42,6 +42,10 @@ export default class RouteModel extends Observable {
     return this.#pathPointMap;
   }
 
+  init() {
+    this.#points = this.randomUniquePoints;
+  }
+
   addPoint(updateType, update) {
     this.#points = [
       update,
@@ -53,6 +57,8 @@ export default class RouteModel extends Observable {
 
   updatePoint(updateType, update) {
     const index = this.#points.findIndex((point) => point.id === update.id);
+    console.log('updateType',updateType);
+    console.log('update',update);
 
     if (index === -1) throw new Error('Can\'t update unexisting point');
 

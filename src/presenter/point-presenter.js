@@ -4,6 +4,8 @@ import {Mode} from '../consts.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 
+import {UserAction, UpdateType} from '../consts.js';
+
 export default class PointPresenter {
   #point = null;
   #destinations = null;
@@ -57,9 +59,7 @@ export default class PointPresenter {
         this.#replacePointToEditPoint();
         document.addEventListener('keydown',this.#escKeyDownHandler);
       },
-      onClickCheckFavorite: () => {
-        this.#handleCheckFavoriteClick();
-      }
+      onClickCheckFavorite: this.#handleCheckFavoriteClick,
     });
 
     this.#editPointComponent = new EditPointView({
@@ -149,7 +149,14 @@ export default class PointPresenter {
   };
 
   #handleCheckFavoriteClick = () => {
-    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    console.log('this.#point',this.#point);
+    console.log('!this.#point.isFavorite',!this.#point.isFavorite);
+    //this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      {...this.#point, isFavorite: !this.#point.isFavorite}
+    );
   };
 
 }
