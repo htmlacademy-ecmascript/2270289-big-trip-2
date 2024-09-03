@@ -54,10 +54,9 @@ export default class AddPointPresenter {
   }
 
   #handleFormButtonSave = (point) => {
-      console.log('Пытаемся сохранить новую точку.');
-      console.log('point',point);
     point.id = nanoid();
-      console.log('point',point);
+    console.log('Пытаемся сохранить новую точку.');
+    console.log('point',point);
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,

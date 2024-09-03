@@ -12,7 +12,9 @@ function createTemplateOffersForPoint (offersByType,offersIdPoint) {
     const checked = (offersIdPoint.find((itemId) => itemId === offer.id)) ? 'checked' : '';
     return `
       <div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" ${checked}>
+          <input class="event__offer-checkbox visually-hidden" id="event-offer-${offer.id}"
+           data-offer-id="${offer.id}"
+           type="checkbox" name="event-offer-${offer.id}" ${checked}>
               <label class="event__offer-label" for="event-offer-${offer.id}">
                     <span class="event__offer-title">${offer.title}</span>
                       &plus;&euro;&nbsp;
@@ -234,6 +236,10 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editArrowClick);
     // Обработчик на выбор типа передвижения
     this.element.querySelector('.event__type-group').addEventListener('click', this.#selectionTypeMovement);
+    //
+    this.element.querySelectorAll('.event__offer-checkbox').forEach((checkbox) => {
+      checkbox.addEventListener('change', this.#onCheckOfferByPoint);
+    });
     // Обработчик на выбор места назначения
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#selectionDestination);
     // Обработчик на изменение цены путешествия
@@ -277,6 +283,22 @@ export default class EditPointView extends AbstractStatefulView {
 
   #changePointByType = (type) => {
     return this.#allOffers.find((item) => item.type === type);
+  };
+
+  // Выбор опций на текущей точке.
+  #onCheckOfferByPoint = (evt) => {
+    evt.preventDefault();
+    const checkedOffers = Array.from(this.element.querySelectorAll('.event__offer-checkbox:checked'));
+    console.log('checkedOffers',checkedOffers);
+    const newOffers = checkedOffers.map((offer) => {
+      console.log('offer',offer);
+      console.log('offer.dataset',offer.dataset);
+      return offer.dataset.offerId;
+    });
+    console.log('newOffers',newOffers);
+    this._setState({
+      offers: newOffers,
+    });
   };
 
 /*
