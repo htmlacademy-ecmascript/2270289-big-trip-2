@@ -13,7 +13,7 @@ function getOfferForPoint({title,price}) {
 
 function createEventsPointTemplate(point,destinationName,currentOffers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
-  console.log(dateTo);
+  //console.log(dateTo);
   const favorite = isFavorite ?
     'event__favorite-btn--active' :
     '';

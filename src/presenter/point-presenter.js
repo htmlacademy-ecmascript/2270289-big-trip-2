@@ -149,8 +149,8 @@ export default class PointPresenter {
   };
 
   #handleCheckFavoriteClick = () => {
-    console.log('this.#point',this.#point);
-    console.log('!this.#point.isFavorite',!this.#point.isFavorite);
+    //console.log('this.#point',this.#point);
+    //console.log('!this.#point.isFavorite',!this.#point.isFavorite);
     //this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
