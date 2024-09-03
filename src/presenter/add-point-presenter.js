@@ -32,11 +32,11 @@ export default class AddPointPresenter {
       point: mockDefaultPoint,
       allDestinations: this.#dataDestinations,
       allOffers: this.#dataOffers,
-      onEditFormSubmit: this.#handleFormSubmit,
-      onEditFormButtonArrow: this.#handleFormButtonArrow,
-      onEditFormButtonCancel: this.#handleFormButtonCancel,
       buttonText: 'Cancel',
       isAddPoint: true,
+      onEditFormButtonSave: this.#handleFormButtonSave,
+      onEditFormButtonArrow: this.#handleFormButtonArrow,
+      onEditFormButtonCancel: this.#handleFormButtonCancel,
     });
 
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
@@ -53,11 +53,15 @@ export default class AddPointPresenter {
     document.removeEventListener('keydown', this.#handleEscKeyDown);
   }
 
-    #handleFormSubmit = (point) => {
+  #handleFormButtonSave = (point) => {
+      console.log('Пытаемся сохранить новую точку.');
+      console.log('point',point);
+    point.id = nanoid();
+      console.log('point',point);
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {id: nanoid(), ...point},
+      {...point},
     );
     this.destroy();
   };
