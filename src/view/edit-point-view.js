@@ -153,7 +153,7 @@ export default class EditPointView extends AbstractStatefulView {
   #buttonText;
   #isAddPoint = false;
 
-  constructor ({point,allDestinations,allOffers,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel,buttonText,isAddPoint}) {
+  constructor ({point,allDestinations,allOffers,buttonText,isAddPoint,onEditFormButtonSave,onEditFormButtonArrow,onEditFormButtonCancel}) {
     super();
 
     this.#allDestinations = allDestinations;
@@ -238,6 +238,9 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#selectionDestination);
     // Обработчик на изменение цены путешествия
     this.element.querySelector('.event__input--price').addEventListener('change', this.#onChangePricePoint);
+    // Обработчик на кнопку удаления
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#onClickDeleteButton);
+
     // инициализация flatpickr, на выбор дат
     this.#setDatepicker();
   }
@@ -305,5 +308,10 @@ export default class EditPointView extends AbstractStatefulView {
     const point = {...state};
     return point;
   }
+
+  #onClickDeleteButton = (evt) => {
+    evt.preventDefault();
+    this.#handleEditFormButtonCancel(EditPointView.parseStateToPoint(this._state));
+  };
 
 }

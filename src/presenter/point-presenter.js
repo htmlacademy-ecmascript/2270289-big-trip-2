@@ -98,9 +98,16 @@ export default class PointPresenter {
  /**
  * Функция обработки нажатия на клавишу Escape, на клавиатуре.
  */
- #handleFormButtonCancel = (evt) => {
-  evt.preventDefault();
-  this.destroy();
+ #handleFormButtonCancel = (point) => {
+  //evt.preventDefault();
+  console.log('Нажали кнопку удалить.');
+  this.#handleDataChange(
+    UserAction.DELETE_POINT,
+    UpdateType.MINOR,
+    point,
+  );
+  //evt.preventDefault();
+  //this.destroy();
 };
 
   #escKeyDownHandler = (evt) => {
